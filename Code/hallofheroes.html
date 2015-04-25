@@ -1,0 +1,316 @@
+
+    <!-- Carousel
+    ================================================== -->
+    <div id="header-section" class="introHeader" >
+    	<div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="intro-message">
+                        <h1>Code Samples</h1>
+                        <h3>Examples and walkthroughs of my code</h3>
+                        <hr class="intro-divider">
+                    </div>
+                </div>
+            </div>
+         </div>
+    </div> 
+
+
+
+    <!-- Marketing messaging and featurettes
+    ================================================== -->
+    <!-- Wrap the rest of the page in another container to center all the content. -->
+
+
+    <div class="container marketing">
+
+      <!-- START THE FEATURETTES -->
+      
+      <!-- IMAGE RIGHT -->
+
+
+      <div class="row featurette">
+        <div class="col-md-12">
+          <h2 class="featurette-heading">Video Game Tracker: <span class="text-muted">Track Video Games with a JSON API</span></h2>
+          <p class="lead">My friends and I are avid gamers--we love talking about video games, competing and (obviously) playing them.  One thing we
+          often do is track our games through a private forum.  However, we wanted to add a bit more circumstance to it, so I decided to use the 
+          GiantBomb API to allow us to track and record the games we played and display it in a grid format.</p>
+          <div class="example-image">
+			<img src="../hallofheroes.png" width="100%" class="codeImage" />
+          </div>
+        </div>
+      </div>
+      
+      <!-- IMAGE LEFT -->
+
+      <hr class="featurette-divider">
+      
+      <div class="row featurette">
+      	
+        <div class="col-md-12">
+          <h2 class="featurette-heading">Searching the API: <span class="text-muted">Using PHP and JSON</span></h2>
+          <p class="lead">GiantBomb provides the information in both XML and JSON formats (I have working examples with both). I chose to focus
+          on JSON for speed purposes (although due to my server situation, speed is a big bottleneck).  First need get the contents and parse into 
+          a json format (which PHP does very easily for us, luckily.</p>
+          <p class="lead">Once we have done that, we want to then create an unordered list with our first 5 findings. This unordered list will be loaded 
+          with AJAX on the main page and appear right under the search bar, giving us a live list.  Luckily, GiantBomb does a lot of the heavy lifting with 
+          the search algorithm, so I only had to worry about displaying the results.</p>
+
+ 
+			<pre class="prettyprint prettySmall lang-php">
+$game_name = $_GET['name']; //name of the game
+
+$gamename_encode = str_replace(' ', '+', $game_name);
+
+$json_id = file_get_contents('http://www.giantbomb.com/api/search/?api_key=test&format=json&query='.$gamename_encode.'&resources=game');
+
+$json_array = json_decode($json_id, true);
+
+$i = 0;
+echo "&ltul class='test'&gt";
+foreach($json_array["results"] as $k =&gt $v)
+{
+	echo "&ltli class='gameSelector'&gt&lta href='game.php?name=".htmlspecialchars($v["name"], ENT_QUOTES)."' class='gameSelector'&gt".$v["name"]."&lt/a&gt&lt/li&gt";
+	$i++;
+	if($i == 5)
+		return;
+}
+echo "&lt/ul&gt";
+    		</pre>
+      </div>
+      </div>
+      
+            <!-- IMAGE RIGHT -->
+
+      <hr class="featurette-divider">
+
+      <div class="row featurette">
+        <div class="col-md-7">
+          <h2 class="featurette-heading">Loading search results: <span class="text-muted">Using AJAX to load the results</span></h2>
+          <p class="lead">The next step was to load the search results. The main page has a text input that will be used to search for the 
+          results.  I used jquery and AJAX in order to load the items.  However, I found that if the user typed too fast, the results would never
+          load correctly.  Instead, I had to add a delay that would reset every time a new key was hit on the keyboard.  This gave a small delay in 
+          search results, but ultimately lead to accurate search results (at least as accurate as possible given the API).</p>
+        </div>
+        <div class="col-md-5">
+			<pre class="prettyprint prettySmall lang-js">
+var typingTimer;                //timer identifier
+var doneTypingInterval = 300;
+            
+$("#search").on("keyup", function(){
+    clearTimeout(typingTimer);
+    typingTimer = setTimeout(searchText, doneTypingInterval);
+});
+
+$("#search").on("keydown", function(){
+    clearTimeout(typingTimer);
+});
+
+function searchText(){
+    var searchText = encodeURIComponent($("#search").val());
+    $( "#result" ).load( "jsonsearch.php?name="+searchText+" .test" );
+}
+    		</pre>
+        </div>
+      </div>
+      
+                  <!-- New Feature -->
+
+      <hr class="featurette-divider">
+
+      <div class="row featurette">
+        <div class="col-md-12">
+          <h2 class="featurette-heading">Selecting a game: <span class="text-muted">Showing the user their selection</span></h2>
+          <p class="lead">So, we've selected a game and now I want a page the displays the selection and gives the option to add that to your list.
+          The first step is pulling in the games information (such as the image) and displaying it on the page.  Much like the search query, we use
+          PHP to load the JSON or XML information for us. I have scripts that work for both, so here is an example of the XML used.</p>
+          <p class="lead">We then write out what we want with PHP echoes or by dropping the PHP values right into our HTML</p>
+			<pre class="prettyprint lang-php">
+$game_name = $_GET['name']; //name of the game
+
+$gamename_encode = str_replace(' ', '+', $game_name);
+
+$xml_id = file_get_contents('http://www.giantbomb.com/api/search/?api_key=TEST&format=xml&query='.$gamename_encode.'&resources=game');
+$books_info = new SimpleXMLElement($xml_id);
+$first_title = $books_info->xpath('/response/results/game/name');
+$description = $books_info->xpath('/response/results/game/description');
+$game_image = $books_info->xpath('/response/results/game/image/super_url');
+$id = $books_info->xpath('/response/results/game/id');
+    		</pre>
+            <pre class="prettyprint lang-php">
+&lt?php
+    echo "&ltinput type='hidden' class='hiddenImg' value='".$game_image[0]."' /&gt";
+    echo "&lth2&gt".$first_title[0]."&lt/h2&gt";
+    echo "&ltimg src='".$game_image[0]."' width='400px' /&gt";
+?&gt
+&ltform action="insert.php" method="GET"&gt
+    &ltinput type="hidden" name="name" value="&lt?php echo $first_title[0] ?&gt" /&gt
+    &ltinput class="addButton" type="submit" value="Add +" /&gt
+&lt/form&gt
+		</pre>
+        </div>
+      </div>
+      
+                  <!-- IMAGE RIGHT -->
+
+      <hr class="featurette-divider">
+
+      <div class="row featurette">
+        <div class="col-md-7">
+          <h2 class="featurette-heading">Changing the background: <span class="text-muted">Dynamic background images</span></h2>
+          <p class="lead">On the default site, I have a static background image.  I thought it would be a nice feature to have the background 
+          image change when you have a certain game selected.  In order to to that, I have to first pull the image from the XML file and write
+          it to the DOM (that is the hidden input you see above).  This will allow me to grab it with jQuery and easily change the background.</p>
+        </div>
+        <div class="col-md-5">
+			<pre class="prettyprint lang-js">
+var newBG = $('.hiddenImg').val();
+
+if(newBG)
+{
+    $('body').css('backgroundImage', 'url('+newBG+')');
+}
+    		</pre>
+        </div>
+      </div>
+      
+                        <!-- New feature-->
+
+      <hr class="featurette-divider">
+
+      <div class="row featurette">
+        <div class="col-md-12">
+          <h2 class="featurette-heading">Saving the information: <span class="text-muted">Using a datbase</span></h2>
+          <p class="lead">The most important aspect is to store the information of this game.  In order to do that, I created a user registration form 
+          (which I won't cover here) that created a table for that user.  That table would store the name of the game and the date that they completed it.
+          However, I didn't want to force people to register, so I had my script check to see if a session was started (i.e. are they logged in?) and if not,
+          store the information to local storage.</p>
+			<pre class="prettyprint lang-php">
+&lt?PHP
+session_start();
+
+if($_SESSION['username']==null)
+{
+	?&gt
+    &ltscript&gt
+		var count = localStorage.length + 1;
+		
+		localStorage["game"+count] = '&lt?php echo $_GET['name'];  ?&gt';
+		
+		for(i=0; i &lt localStorage.length; i++)
+		{
+			var num = i+1;
+		}
+		
+        //redirect them back to the main page
+		window.location.href = 'index.php';
+	&lt/script&gt
+    
+    &lt?php
+}
+else 
+{
+	require ("scripts/db_connection.php");
+	
+	$game_name = mysqli_real_escape_string($link, $_GET['name']); //name of the game
+	
+	//insert the game into the table for this user
+	$sql = "INSERT into ".$_SESSION['username']." (game, completed) VALUES('".$game_name."',NOW());";
+	
+	$query = $dbh-&gtprepare($sql);
+		$query-&gtexecute();
+	
+    //then redirect them back to the main page
+	header('Location: index.php');
+}
+?&gt		</pre>
+        </div>
+      </div>
+      
+                        <!-- IMAGE RIGHT -->
+
+      <hr class="featurette-divider">
+
+      <div class="row featurette">
+        <div class="col-md-7">
+          <h2 class="featurette-heading">Showing your games: <span class="text-muted">Displaying the games to the user</span></h2>
+          <p class="lead">So now, we have a Database or localstorage array filled with game names and dates.  Now we want to visually show all 
+          the games to the user.  It wouldn't make sense to store any information (such as the images) in the DB/localstorage when we can just use
+          the API to pull in the matching information.  So, first we will create div's for each game.  We check to see if there is a PHP session--if there is
+          we use PHP to create them--if not, we use JavaScript since the information is in localstorage.</p>
+        </div>
+        <div class="col-md-5">
+			<pre class="prettyprint prettySmall lang-js">
+//Javascript
+for(i=0; i &lt localStorage.length; i++)
+{
+	var num = i+1;
+	//alert(localStorage["game"+num]);
+	
+	$('#wrapperBox').append(
+	"&ltdiv id='box"+num+"' class='gameBox' &gt"+
+	'&ltinput type="hidden" class="feed" value="'+localStorage["game"+num]+'" /&gt &lt/div&gt');
+}		</pre>
+		<pre class="prettyprint prettySmall lang-js">
+//PHP
+$i = 1;
+    while($row = mysqli_fetch_row($result))
+    {
+        echo "&ltdiv id='box".$i."' class='gameBox' &gt";
+        echo '&ltinput type="hidden" class="feed" value="'.$row[0].'" /&gt &lt/div&gt';
+        $i++;
+    }
+		</pre>
+        </div>
+      </div>
+      
+                        <!-- IMAGE RIGHT -->
+
+      <hr class="featurette-divider">
+
+      <div class="row featurette">
+        <div class="col-md-12">
+          <h2 class="featurette-heading">Getting the matching images: <span class="text-muted">Using the API to show game images</span></h2>
+          <p class="lead">Now we have div's with the names of the games, but we also want to pull in the images (that's what gives us the nice grid 
+          you see in the first screenshot).  Much like the JSON and XML examples above, we simply use the API to pull in the images (the steps are identical 
+          to how we get the image on the game information page--so I won't go over it here).  What we want to focus on is the JavaScript used to pull in 
+          that information.  Much like our search list, we use AJAX to pull the information in from that PHP script.</p>
+			<pre class="prettyprint lang-js">
+var gameBoxCounter = 1;
+	
+	//for each game listed in the user's database, pull in the matching image
+	$('.feed').each(function(){
+		var gameName = $(this).val();
+		var encodeGameName = encodeURIComponent(gameName);
+		
+		$( "#box"+gameBoxCounter ).append($('&ltdiv&gt').load( "getimages.php?name="+encodeGameName+" .getImage" ));
+		var gameText = "&ltp class='gameText'&gt"+gameName+"&lt/p&gt";
+		$( "#box"+gameBoxCounter+" div").append("&ltimg src='images/loading.gif' /&gt");
+		
+		$( "#box"+gameBoxCounter ).append(gameText);
+		gameBoxCounter++;
+	});
+    		</pre>
+        </div>
+      </div>
+      
+            <hr class="featurette-divider">
+
+      <div class="row featurette">
+        <div class="col-md-12">
+          <h2 class="featurette-heading">The finished product: <span class="text-muted">Everything that was used</span></h2>
+          <p class="lead">A lot more goes into that site than what I listed here, but this was meant as just a quick overview of the PHP and JavaScript
+          used.  You can check out the site <a href="http://scottbatson.com/hallofheroes">here</a> to get an idea of the styling (and feel free to look over 
+          the CSS and JS). On this project, a lot of languages are combined to create a site that I drafted from scratch.  We use an outside API, JSON, XML,
+          PHP, JavaScript, jQuery, HTML5, CSS3, MySQL and AJAX.  Overall it was a fun project where I had to pass information from a lot of different formats 
+          (we started with JSON, parse into PHP, load with AJAX, then either use PHP to insert it into a MySQL Database, or use JavaScript to write to 
+          localstorage, then query in those two formats to write it to HTML, only to again use JavaScript to push the information to PHP via a Get request, write 
+          HTML again and use AJAX to load it).  It's a long trip.</p>
+        </div>
+      </div>
+
+    </div><!-- /.container -->
+
+
+
+

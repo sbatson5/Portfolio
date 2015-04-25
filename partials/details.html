@@ -1,0 +1,22 @@
+<main id="main" ng-controller="ProjectsController">
+<div class="container">
+            <div class="row main-low-margin">
+                <div class="col-md-6 margin-top-down">
+                    <h2>Project Description</h2>
+                    <p class="add-new-lines">{{projects.description}}</p>
+                    <br />
+                    <p>You can view the project <a href="{{projects.link}}">here</a></p>
+                    <p>You can also see some examples of my code <a href="#/code/{{ projects.id }}">here</a></p>
+                    <h2>Skills Used</h2>
+                    <p>{{projects.skills}}</p>
+                </div>
+                <div class="col-md-6">
+                    <img src="{{projects.image2}}" width="100%"/>
+                </div>
+            </div>
+        </div>
+
+
+</main>
+
+

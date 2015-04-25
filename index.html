@@ -1,0 +1,42 @@
+<!DOCTYPE HTML>
+<html data-ng-app="projectsApp">
+<head>
+<meta charset="UTF-8">
+<title>Scott's Portfolio</title>
+<link href="portfolioStyles.css" rel="stylesheet" />
+<link href="assets/css/bootstrap.css" rel="stylesheet" />
+<link href="assets/css/prettify.css" rel="stylesheet" />
+<link href="assets/css/font-awesome.min.css" rel="stylesheet" />
+
+</head>
+
+<body>
+<header id="masthead">
+    	<h1 id="pageTitle"><a href="portfolio.html#/projects">Scott Batson's Porfolio</a></h1>
+        <div class="social-links">
+        	<a href="https://www.facebook.com/scott.batson.75"><i class="fa fa-facebook-square fa-3x "></i></a>
+            <a href="https://twitter.com/ScottJBatson"><i class="fa fa-twitter-square fa-3x"></i></a>
+            <a href="https://plus.google.com/u/0/103335484108544262661/posts"><i class="fa fa-google-plus-square fa-3x"></i></a>
+            <a href="https://www.linkedin.com/profile/view?id=161826022&trk=nav_responsive_tab_profile">
+                <i class="fa fa-linkedin-square fa-3x"></i>
+            </a>
+           </div>
+</header>
+<div id="wrapper">
+
+	<div ng-view></div>
+</div>
+
+
+
+
+
+<script src="angular.min.js"></script>
+<script src="angular-route.js"></script>
+<script src="app.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script src="assets/js/bootstrap.min.js"></script>
+<script src="Draft/js/prettify.js"></script>
+
+</body>
+</html>

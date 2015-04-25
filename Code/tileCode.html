@@ -1,0 +1,381 @@
+
+
+    <!-- Carousel
+    ================================================== -->
+    <div id="header-section" class="tileHeader" >
+    	<div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="intro-message">
+                        <h1>Tile Match Game</h1>
+                        <h3>Creating a game with CSS and JavaScript</h3>
+                        <hr class="intro-divider">
+                    </div>
+                </div>
+            </div>
+         </div>
+    </div> 
+
+
+    <div class="container marketing">
+
+      <!-- START THE FEATURETTES -->
+      
+      <!-- IMAGE RIGHT -->
+
+      <div class="row featurette">
+        <div class="col-md-12">
+          <h2 class="featurette-heading">The IIS image: <span class="text-muted">Mocking up a premade image</span></h2>
+          <p class="lead">I have a lot of experience with Windows Servers and IIS.  With the latest release of IIS, Windows
+          provided a default splash image.  As I was just learning about CCS3 animations, I thought it would be great to
+          mock it up using div's and moving them with animations.  Working with squares was really easy since I could
+          set the height and width and place them easily.</p>
+		  <div class="example-image">
+			<img src="../assets/img/iis.png" width="100%" class="codeImage" />
+          </div>
+        </div>
+      </div>
+      
+      <!-- ----------- IMAGE LEFT ----------------- -->
+
+      <hr class="featurette-divider">
+      
+      <div class="row featurette">
+        <div class="col-md-12">
+          <h2 class="featurette-heading">Creating the tiles: <span class="text-muted">div's and spacing</span></h2>
+          <p class="lead">Since the image was premade, it was easy for me to grab the colors.  For the boxes, I made the larger
+          ones 100px by 100px and the smaller ones 50px by 50px.  This made my job really easy when placing them.  Once I had
+          them in the right places, I decided to make a tile matching game.  This meant removing the text and adding
+          some JavaScript to keep score.</p>
+		 <div class="example-image">
+			<img src="../assets/img/staticTile.png" width="100%" class="codeImage" />
+         </div>
+        </div>
+      </div>
+      
+       <!-- ----------- IMAGE RIGHT ------------------- -->
+
+      <hr class="featurette-divider">
+
+      <div class="row featurette">
+        <div class="col-md-12">
+          <h2 class="featurette-heading">Making a game: <span class="text-muted">Writing the HTML</span></h2>
+          <p class="lead">To make a matching game, you need images.  There will be several pairs of images and you
+          simply find the pairs to get points.  I went through each div and added an image and then created a div
+          on top for a scoreboard.  The scoreboard would update with JavaScript (which I will cover below) and the divs
+          would move with CSS3 animations.</p>
+          <p class="lead">I add some custom classes so that I can better edit the items in CSS.  The scoreboard has
+          a class of "points" for the background and "score" and "strikes" so that I can show how points increase
+          and decrease.  Each div has to have its own unique identifier since I need to animate each separately.</p>
+          	<pre class="prettyprint lang-html">
+&lt;div class="scoreBoard"&gt;
+    &lt;h2&gt;Your score: &lt;span class="points score"&gt;0&lt;/span&gt;&lt;/h2&gt;
+    &lt;h2&gt;Strikes: &lt;span class="points strikes"&gt;0&lt;/span&gt;&lt;/h2&gt;
+&lt;/div&gt;
+
+&lt;div class="headerImage"&gt;
+    &lt;h1&gt;Match the Tiles&lt;/h1&gt;
+&lt;/div&gt;
+
+&lt;div class="dark box1"&gt;
+    &lt;img src="images/duff.png" class="tileImage" /&gt;
+&lt;/div&gt;
+
+&lt;div class="light box2"&gt;
+    &lt;img src="images/croc.png" class="tileImage" /&gt;
+&lt;/div&gt;
+
+&lt;div class="dark box3"&gt;
+    &lt;img src="images/penguins.jpg" class="tileImage" /&gt;
+&lt;/div&gt;
+            </pre>
+        </div>
+      </div>
+
+            <!-- ----------- IMAGE LEFT ----------------- -->
+
+      <hr class="featurette-divider">
+      
+      <div class="row featurette">
+        <div class="col-md-12">
+          <h2 class="featurette-heading">Styling the game: <span class="text-muted">CSS3 to control the boxes</span></h2>
+          <p class="lead">Here, I set up some basic CSS to control the Header and boxes.  Since the boxes all have the same
+          sizes and will have the same animation timings, there's no need to write them separately.  I also have three shades which
+          I have labeled as dark, light and lighter.  I give all of them fixed positions and make them 100x100.  I give the animations
+          a 5 second delay and have the animations run for 2 seconds (this was just trial and error and finding what I liked).</p>
+          <p class="lead">The header image is static and won't move.  To make sure it doesn't blend into some of the boxes
+          I give it a box-shadow.  This just makes it look a bit better.  The smaller boxes should be half the size of the others
+          but they will have the same animations.  So, the '.small' CSS properties  just overwrite the box sizes.</p>
+          <p class="lead">Due to the differences in browsers, I have to set animations for the webkit and others.  That means
+          each animation needs to be written twice.  Unlike other browser differences, this one isn't too difficult and the rules
+          work the same between IE and Chrome/Firefox.</p>
+          	<pre class="prettyprint lang-css">
+div.headerImage
+{
+	position: fixed;
+	width: 600px;
+	height: 100px;
+	left: 100px;
+	top: 100px;
+	z-index: 2;
+	box-shadow: 3px 3px 10px #222222;
+}
+div.headerImage h1
+{
+	color: white;
+	font-weight: normal;
+	position: absolute;
+	bottom: 1px;
+	left: 5px;
+}
+/*size and colors of the boxes*/
+div.dark, div.light, div.lighter
+{
+	width: 100px;
+	height: 100px;
+	position: fixed;
+
+	animation-duration: 2s;
+	animation-delay: 5s;
+	animation-fill-mode: forwards;
+
+	-webkit-animation-duration: 2s;
+	-webkit-animation-delay: 5s;
+	-webkit-animation-fill-mode: forwards;
+}
+div.small
+{
+	width: 50px;
+	height: 50px;
+}
+            </pre>
+        </div>
+      </div>
+      
+             <!-- ----------- IMAGE RIGHT ------------------- -->
+
+      <hr class="featurette-divider">
+
+      <div class="row featurette">
+        <div class="col-md-7">
+          <h2 class="featurette-heading">Animations: <span class="text-muted">Working with CSS3 animations</span></h2>
+          <p class="lead">Writing the animations wasn't too tough but it was time consuming.  I wanted each box to move 
+          in one direction only (either vertically or horizontally) but not both.  That just makes it cleaner.  Since 
+          the boxes are 50x50 and 100x100, moving them is pretty clean.  I took one box at a time to make sure that 
+          two boxes of the same color never end up side by side.  Since there are no borders, having the boxes touch 
+          would be confusing for the player.</p>
+        </div>
+        <div class="col-md-5">
+          	<pre class="prettyprint lang-css">
+@keyframes box1
+{
+	from{}
+	to {left: 650px;}
+}
+@keyframes box2
+{
+	from{}
+	to {left: 550px;}
+}
+@keyframes box3
+{
+	from{}
+	to {left: 100px;}
+}
+@keyframes box4
+{
+	from{}
+	to {top: 500px;}
+}
+@keyframes box5
+{
+	from{}
+	to {left: 100px;}
+}
+            </pre>
+        </div>
+      </div>
+      
+      
+                  <!-- ----------- IMAGE LEFT ----------------- -->
+
+      <hr class="featurette-divider">
+      
+      <div class="row featurette">
+        <div class="col-md-12">
+          <h2 class="featurette-heading">Making it a game: <span class="text-muted">using jQuery to keep score</span></h2>
+          <p class="lead">There are a few things that need to happen before we can make it a game.  First, we want all of the images
+          to disappear.  Luckily, jQuery makes it easy for us as we can fade out anythng with a class of 'tileImage.'  We delay it by 4 
+          seconds (4000 milliseconds) and since the animations start at 5 seconds, we get one second before the boxes start moving.</p>
+          <p class="lead">I also have some elements that I want hidden.  First is the 'floatingScore.'  This will be a quick +1 that 
+          appears on the scoreboard when you make a correct selection.  Similarly, 'floatingStrike' shows when you get a strike (we will 
+          allow 3 before you lose) and 'floatingWrong' will show when you lose a point.  We also want to track the person's current selection, 
+          how many you have selected wrong, which choice you have (i.e. is this your first choice?), the score and what you had for your
+          previous selection.</p>
+          
+          	<pre class="prettyprint lang-javascript">
+$('.tileImage').delay(4000).fadeOut("fast");
+$('.floatingScore').hide();
+$('.floatingStrike').hide();
+$('.floatingWrong').hide();
+$('.gameOver').hide();
+
+var selection;
+var choice = 1;
+var wrong = 0;
+var score = 0;
+var previous;
+            </pre>
+        </div>
+      </div>
+      
+            <!-- ----------- IMAGE RIGHT ------------------- -->
+
+      <hr class="featurette-divider">
+
+      <div class="row featurette">
+        <div class="col-md-12">
+          <h2 class="featurette-heading">How the game starts: <span class="text-muted">What happens when you click?</span></h2>
+          <p class="lead">Now, we need to control what happens when someone clicks on a square.  The first thing that we need 
+          to do is keep the player from clicking the same square again.  So, I add a class to that square called 'unclickable.'
+          This class has no styling or special properties, but the script will only account it does not have a class of 
+          'unclickable.'</p>
+          <p class="lead">The next thing we do is see which choice we are on.  If it's our first choice, set choice to 2.
+          Next, we need to find the image.  Since these are simple div's, we can just find the first child. We 
+          set our variable 'selection' to be the name of the image (which is the 'src' of that element). We also assign 
+          our variable of 'previous' to the div's first child, that way next turn, we can remember our previous selection.</p>
+          	<pre class="prettyprint lang-javascript">
+$('.light, .dark, .lighter').click(function(){
+
+    if (!$(this).hasClass("unclickable"))
+    {
+        $(this).addClass("unclickable");
+        $(":first-child", this).fadeIn("fast");
+        //if this is the first choice in the selection, record the image name
+        //make choice set to 2
+        if (choice==1)
+        {
+            choice = 2;
+            selection = $(":first-child", this).attr('src');
+            //remember this for the next selection
+            //as we will have to fade the image out if the selection is wrong
+            previous = $(":first-child", this);
+        }
+            </pre>
+        </div>
+      </div>
+      
+                        <!-- ----------- IMAGE LEFT ----------------- -->
+
+      <hr class="featurette-divider">
+      
+      <div class="row featurette">
+        <div class="col-md-12">
+          <h2 class="featurette-heading">Our second selection: <span class="text-muted">what do we do on our second selection?</span></h2>
+          <p class="lead">If it is our second selection we need to see if our selection this time matches our selection last time.  
+          So, if our variable 'selection' is the same as the first child of this div, then we have a match.  We can increment the score 
+          and then show our floating score (which will be explained below).  If it is not the right selection, we will hide the image again, 
+          hide the previous image again, and remove the 'unclickable' class from this div and the last.  We also will decrement the score and 
+          increment how many have been wrong. Similary, we will show some more floating text.</p>
+          <p class="lead">No matter what, we set the 'choice' back to 1 to allow the player to make another selection.</p>
+          	<pre class="prettyprint lang-javascript">
+else
+{
+    //check to see if the previously selected image is the same as this one
+    if (selection == $(":first-child", this).attr('src'))
+    {
+        score++;
+        floatText($('.floatingScore'));
+    }
+    else if (selection != $(":first-child", this).attr('src'))
+    {
+        //if they select wrong, hide the images again
+        previous.delay(1000).fadeOut("fast");
+        $(":first-child", this).delay(1000).fadeOut("fast");
+        $(this).removeClass('unclickable');
+        previous.parent().removeClass('unclickable');
+        score--;
+        wrong++;
+        //display floating score text
+        floatText($('.floatingStrike'));
+        floatText($('.floatingWrong'));
+    }
+    choice = 1;
+}
+
+            </pre>
+        </div>
+      </div>
+      
+                  <!-- ----------- IMAGE RIGHT ------------------- -->
+
+      <hr class="featurette-divider">
+
+      <div class="row featurette">
+        <div class="col-md-12">
+          <h2 class="featurette-heading">Floating text: <span class="text-muted">Making the scoring appear</span></h2>
+          <p class="lead">To have floating text, we first have to specify where it appears.  To do that, we find out 
+          the positions of the score and strikes on the scoreboard.  Then, we set the position of the floating strike, score, 
+          and wrong text to be slightly off so it doesn't go over our default numbers.</p>
+          <p class="lead">These items are hidden by default, so we write a function that makes them appear.  This function 
+          is called whenever there is a change in the score.  We accept an element as a parameter, that way this can be used 
+          for all of the floating items.  This simply makes the element appear for half a second.  We are left with some nice floating 
+          text on our scoreboard.</p>
+          	<pre class="prettyprint lang-javascript">
+//get the score positions for floating text
+$('.floatingStrike').css('top', $('.strikes').offset().top-30);
+$('.floatingStrike').css('left', $('.strikes').offset().left+10);
+
+$('.floatingScore').css('top', $('.score').offset().top-30);
+$('.floatingScore').css('left', $('.score').offset().left+10);
+$('.floatingWrong').css('top', $('.score').offset().top-30);
+$('.floatingWrong').css('left', $('.score').offset().left+10);
+
+//Display the floating text quickly
+function floatText(element)
+{
+	$(element).fadeIn("fast").delay(500).fadeOut("fast");
+}
+            </pre>
+        </div>
+      </div>
+      
+                              <!-- ----------- IMAGE LEFT ----------------- -->
+
+      <hr class="featurette-divider">
+      
+      <div class="row featurette">
+        <div class="col-md-12">
+          <h2 class="featurette-heading">Game Over: <span class="text-muted">creating a game over screen.</span></h2>
+          <p class="lead">Finally, we want to end the game if they make too many wrong selections.  I created a div 
+          with a class of 'gameOver' and simple text of "GAME OVER."  This is hidden by default but when the game 
+          ends we can show it with jQuery.  We also want to make sure the person can't keep playing, so we make every 
+          div 'unclickable.'  I also want the game to be greyed out, so I change the opacity of every child of the body 
+          which gives us this nice Game Over screen.</p>
+          <p class="lead">You can view this by playing the game <a href="../tile.html">here</a></p>
+          	<pre class="prettyprint lang-javascript">
+//this part is in our click function
+if (wrong >= 3)
+{
+    gameOver();
+}
+//Game over function
+function gameOver()
+{
+	$('div').addClass("unclickable");
+	$('body').children().css('opacity', 0.3);
+	
+	$('.gameOver').show();
+	$('.gameOver').css('opacity', 1);
+	
+}
+            </pre>
+        </div>
+      </div>
+    </div><!-- /.container -->
+
+
+
+
+
+

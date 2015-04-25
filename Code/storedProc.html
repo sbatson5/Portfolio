@@ -1,0 +1,229 @@
+
+    <!-- Carousel
+    ================================================== -->
+    <div id="header-section" class="introHeader" >
+    	<div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="intro-message">
+                        <h1>Code Samples</h1>
+                        <h3>Examples and walkthroughs of my code</h3>
+                        <hr class="intro-divider">
+                    </div>
+                </div>
+            </div>
+         </div>
+    </div> 
+
+
+
+    <!-- Marketing messaging and featurettes
+    ================================================== -->
+    <!-- Wrap the rest of the page in another container to center all the content. -->
+
+
+    <div class="container marketing">
+
+      <!-- START THE FEATURETTES -->
+      
+      <!-- IMAGE RIGHT -->
+
+
+      <div class="row featurette">
+        <div class="col-md-12">
+          <h2 class="featurette-heading">Orders database<span class="text-muted">Handling customer orders</span></h2>
+          <p class="lead">A manufacturer had a pretty basic database that stored information on their customers, products, sales reps,
+          offices and orders.  This worked for some basic queries and reporting, however we needed to create a system that handled reorders when 
+          the quantity on hand ran too low and a way to print shipping labels.  All of the code I ran was written directly in the console.  No programs 
+          were used to write these queries for me.</p>
+		<div class="example-image">
+			<img src="../assets/img/databaseDiagram.png" width="100%" class="codeImage" />
+         </div>
+        </div>
+      </div>
+      
+      <!-- IMAGE LEFT -->
+
+      <hr class="featurette-divider">
+      
+      <div class="row featurette">
+        <div class="col-md-12">
+          <h2 class="featurette-heading">Creating our new tables: <span class="text-muted">Storing the info we need</span></h2>
+          <p class="lead">The first step was to create new tables.  We needed to create a table for reorders.  It would have a 
+          manufacturer ID, Product ID, description, price for the product, and the quantity needed.</p>
+          <p class="lead">Then we needed to create a table for the labels.  This table should update when we have an order and 
+          simply lists the information we need on a shipping label: The order number (unique), the date for the order, name of the company 
+          description and the quantity we need.</p>
+			<pre class="prettyprint lang-sql">
+create table Reorder
+(MFR_ID Char(3) Not Null,
+Product_ID Char(5) Not Null,
+Description varchar(20) Not Null,
+Price Decimal(10,2) Not Null,
+QTY_Required Integer Not Null,
+Primary Key (MFR_ID, Product_ID));
+
+Create table Labels
+(Order_Num integer Primary Key,
+Order_Date date,
+Company varchar(20),
+Description varchar(20),
+Quantity integer);
+    		</pre>
+        </div>
+      
+      </div>
+      
+            <!-- IMAGE RIGHT -->
+
+      <hr class="featurette-divider">
+
+      <div class="row featurette">
+        <div class="col-md-12">
+          <h2 class="featurette-heading">The Stored Procedure: <span class="text-muted">Handling reorders</span></h2>
+          <p class="lead">Now, we needed to create a stored procedure to check the quantity on hand when we received an order.  If 
+          there was enough of hand, then it needs to update the quantity (which was a manual process before) and insert info for a shipping 
+          label.  If there wasn't enough of hand the procedure needed to add it to the reorder list (which meant checking to make sure there 
+          wasn't already a request to reorder).  If there was already a request, it needs to increase the quantity needed.</p>
+          <p class="lead">To start our stored procedure, we first have to change our delimiter (since we need to use the semicolon in our 
+          procedure.  We then need to declare all of the variables we will use.  These were added as I went along, but if you mapped it out 
+          ahead of time, you should be able to identify the variables needed.</p>
+			<pre class="prettyprint lang-sql">
+Delimiter |
+
+Create procedure ordering_proc
+
+   (Ord_Num int(11))
+
+   Begin
+
+   Declare ord_q int(11);
+   Declare MFR_Ord char(3);
+   Declare q_o_h int(11);
+   Declare Prod char(5);
+   Declare Ord_Date date;
+   Declare Cust_ID int(11);
+   Declare Comp_name varchar(20);
+   Declare Prod_Desc varchar(20);
+   Declare pcnt integer;
+   Declare Ord_Price Decimal(10,2);
+   Declare QTY_Req integer;
+    		</pre>
+        </div>
+      </div>
+
+      <!-- IMAGE LEFT -->
+
+      <hr class="featurette-divider">
+      
+      <div class="row featurette">
+        <div class="col-md-12">
+          <h2 class="featurette-heading">Populating our variables: <span class="text-muted">Pulling in the right data</span></h2>
+          <p class="lead">In stored procedures, you constantly need to reference data in tables, but it doesn't make sense to constantly 
+          write out select queries everytime you need a value.  So, we first started by declaring the variables and then populated them with 
+          queries.  We pull in the quantities for an order, the products and more as we need all of that information for our reorders.</p>
+			<pre class="prettyprint lang-sql">
+Select QTY, MFR, Product, Order_date, Cust
+into ord_q, MFR_Ord, Prod, Ord_Date, Cust_ID from Orders 
+where Order_Num = Ord_Num;
+
+Select QTY_On_Hand, Description, Price
+into q_o_h, Prod_Desc, Ord_Price from Products
+where Product_ID = Prod
+and MFR_ID = MFR_Ord;
+
+Select Company into Comp_name
+from Customers
+Where Cust_Num = Cust_ID;
+
+select count(*) into pcnt
+from Reorder
+where MFR_ID = MFR_Ord
+and Product_ID = Prod;
+    		</pre>
+        </div>
+      </div>
+      
+                  <!-- IMAGE RIGHT -->
+
+      <hr class="featurette-divider">
+
+      <div class="row featurette">
+        <div class="col-md-12">
+          <h2 class="featurette-heading">Placing the reorder: <span class="text-muted">Do we have enough on hand?</span></h2>
+          <p class="lead">Now that we have all of the information stored, we can finally check to see if we need to order more.  
+          First, we check to see if the quantity in our order is less than or equal to the quantity on hand.  If it is, then we need 
+          to simply update our Products table by decreasing the quantity on hand by the amount in our order for that particular product.  
+          We then create insert the information for our shipping label.</p>
+          <p class="lead">If we do not have enough on hand, then we need to reorder.  First, we check to see if that item is already in 
+          our reorder table.  That information is stored in our 'pcnt' variable as it stores the number of times a product appears.  If it is 
+          less than 1 (i.e. it wasn't found in our reorder table) then we need to insert this item into the table with the number that we need to 
+          fulfill the order.  If it was already in the table, then we simply update the number we need to include this order as well.</p>
+          <p class="lead">Finally, we end our if conditions and change our Delimiter back to the semicolon so we can continue to run normal queries.</p>
+			<pre class="prettyprint prettySmall lang-sql">
+if ord_q <= q_o_h then
+
+      Update Products
+      set Qty_on_Hand = Qty_on_Hand - ord_q
+      where Product_ID = Prod
+      and MFR_ID = MFR_Ord;
+
+      Insert into Labels Values (Ord_Num, Ord_Date, Comp_name,
+      Prod_Desc, ord_q);
+
+   else
+       if pcnt < 1 then
+          Insert into Reorder Values (MFR_Ord, Prod,
+          Prod_Desc, Ord_Price, ABS(ord_q - q_o_h));
+       else
+          Update Reorder
+          set QTY_Required = QTY_Required + ord_q
+          where MFR_ID = MFR_Ord
+          and Product_ID = Prod;
+       end if;
+   end if;
+end;|
+
+Delimiter ;
+    		</pre>
+        </div>
+      </div>
+      
+      
+            <!-- IMAGE LEFT -->
+
+      <hr class="featurette-divider">
+      
+      <div class="row featurette">
+        <div class="col-md-7">
+          <h2 class="featurette-heading">Triggering the procedure: <span class="text-muted">Making all of this happen automatically</span></h2>
+          <p class="lead">The last step was to create a trigger so this would happen automatically.  Similarly, to create a trigger, we first change the 
+          delimiter.  In this case, I used a double dollar-sign (but it could be anything).  We tell it to run the stored procedure any time there is a 
+          new order.  Not only does this take care of creating a label, but it lets us know when have to place a reorder for a particular product.</p>
+        </div>
+        
+        <div class="col-md-5">
+			<pre class="prettyprint lang-sql">
+Delimiter $$
+create trigger run_proc after insert on Orders
+for each row
+Begin
+
+    Declare New_Ord int(11);
+
+    Select New.Order_Num into New_Ord;
+    call ordering_proc(New_Ord);
+
+end; $$
+
+Delimiter ;
+    		</pre>
+        </div>
+      </div>
+
+
+    </div><!-- /.container -->
+
+
+
+

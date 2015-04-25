@@ -1,0 +1,286 @@
+
+    <!-- Carousel
+    ================================================== -->
+    <div id="header-section" class="introHeader" >
+    	<div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="intro-message">
+                        <h1>Submission Script</h1>
+                        <h3>Handling Survey Responses</h3>
+                        <hr class="intro-divider">
+                    </div>
+                </div>
+            </div>
+         </div>
+    </div> 
+
+
+    <div class="container marketing">
+
+      <!-- START THE FEATURETTES -->
+      
+      <!-- IMAGE RIGHT -->
+
+      <div class="row featurette">
+        <div class="col-md-7">
+          <h2 class="featurette-heading">Handling Survey Responses: <span class="text-muted">Saving survey data</span></h2>
+          <p class="lead">An HTML survey created by Snap typically emails the data back to the user.  The data is an unusual format, which Snap uses to import data into the
+           	Snap System.  The data is typically laid out in order, with each V variable representing a question and meta information about the survey such as the build of the
+            software, the name of the survey, return email address and more.</p>
+            <p class="lead">Without the data laid out like, Snap will not know how to import and map the data correctly to each question in the survey.  The old script worked
+             fine and allowed you to import from your inbox.  However, we had a customer where this wasn't a solution and they could not go with our other cloud based 
+             solution.  To work around this, I sought out to create a site that would store the data for them and format it in a way that Snap could import it.</p>
+        </div>
+        <div class="col-md-5">
+			<pre class="prettyprint lang-php">
+***START SURVEY DATA***
+:BUILD:=11.07
+:SURVEY:=Epic Test
+:PUBVER:=1
+:EMAIL:=test@snapsurveys.com
+:FORMAT:=HTML
+:FORMID:=1
+:CHARSET:=utf8
+:MSGENCODE:=2
+:USERID:=55555S/999
+V4=04/14/14
+V5=19:28:03
+V7=19:28:30
+V8=0.45
+V2=1
+V6=04/14/14
+V3=Tom Brady
+V10=3
+V11=Good
+V12=Good
+***END SURVEY DATA***
+            </pre>
+        </div>
+      </div>
+      
+      <!-- ----------- IMAGE LEFT ----------------- -->
+
+      <hr class="featurette-divider">
+      
+      <div class="row featurette">
+        <div class="col-md-12">
+          <h2 class="featurette-heading">Saving the data: <span class="text-muted">Storing it in a database</span></h2>
+          <p class="lead">Each survey submits the data through POST.  Normally, it goes to our script but the user can specify any script location in case they want to host
+           everything on their system.  My goal was to create a site where they could manage users, each user would have their own script location and could download and
+           delete their own data.  There are many tricky aspects to this but the first (and most obvious) hurdle was getting the data into a meaningful format.  What made
+           this tough is that we had no idea how long each survey would be or how many questions would be in each survey.  So, we needed a script that could scale to any
+           size survey.  Next, we needed a script that would write the data in the way Snap wanted (like the text file above).  To do that, the first step was to save the
+           data into a database.  Each database would have one table for each survey, that way the data wouldn't get mixed together.  To do that, I would need to create a
+           database table if one didn't exist already.</p>
+          <p class="lead">The name of the survey is passed in as :SURVEY:.  Since this can accept special characters, I need to escape teh string and use a regular expression
+           to remove special characters and replace them with underscores.  Next, I ran a query to see if there was a table already with that name.</p>
+			<pre class="prettyprint lang-php">
+require_once('db_connect.php');
+$survey = $_POST[':SURVEY:'];
+$survey = mysqli_real_escape_string($link,preg_replace('/[^a-z0-9]/i','_',$survey));
+$count = "SHOW TABLES LIKE '".$survey."';";
+            </pre>
+        </div>
+      </div>
+      
+            <!-- IMAGE RIGHT -->
+
+      <hr class="featurette-divider">
+
+      <div class="row featurette">
+        <div class="col-md-12">
+          <h2 class="featurette-heading">Saving our data: <span class="text-muted">Creating a table</span></h2>
+          <p class="lead">Then, we need to see if the table exists or not.  This can be done by seeing if our query (called $count) returns any rows.  If it doesn't we will create a table with the name of $survey.  However, I need to create each field appropriately--since most of the data is text, I can safely default to a text data type.  This also works because we aren't querying these database directly, simply saving them to a text file later (so data type isn't overly important).  Still, to save on space, we create some as Decimal.  I create a boolean called $decimal_check that simply checks to see if there is a '.' in the value being submitted.  If there is and that value is a number, then we can call it a Decimal field.  Otherwise, we will call it text.  We finally append the key for the submission to our running variable of $fields with the $type we want to apply.  That way we can add it to our query (i.e. so it will say "comments text(9999), quantity Decimal(11,2)").  Since some of the fields include a colon in the field name, I replace the colon with 'xxxx.'  This is done so that I can easily switch it back to a colon when I need to create my text file.</p>
+			<pre class="prettyprint lang-php">
+//If the table does not exist, create it
+if( !mysqli_num_rows(mysqli_query($link,$count))){
+    foreach ($_POST as $key=>$value)
+    {
+        $decimal_check = strpos($value, ".");
+        $key = str_replace(":","xxxx",$key);
+        if(is_numeric($value) && $decimal_check!=false){
+            $type = "Decimal (11,2)";
+        }else{
+            $type = "text(9999)";
+        }
+        $fields .= "$key $type,";
+        $values .= "'$value',";
+    }
+            </pre>
+        </div>
+      </div>
+      
+            <!-- ----------- IMAGE LEFT ----------------- -->
+
+      <hr class="featurette-divider">
+      
+      <div class="row featurette">
+        <div class="col-md-12">
+          <h2 class="featurette-heading">Executing the query: <span class="text-muted">Creating our table with the right fields</span></h2>
+          <p class="lead">Next, I need to write the query to create the table.  I need to include all of the fields, so I escape the $fields variable (which has been collecting our field names and data types).  I also remove the last character, which is a comma so that it won't mess up our query.  I then create variable to hold our query with the name of the survey and the $fields variable.  Finally, I execute the query to create the table for this survey.</p>
+			<pre class="prettyprint lang-php">
+$fields = mysqli_real_escape_string($link,substr($fields, 0, -1));
+		
+		
+$sql = "CREATE TABLE ". $survey .
+    " (Case_num int Not Null Primary key auto_increment, Download int DEFAULT 1, $fields);";
+
+mysqli_query($link,$sql)
+    or die(mysqli_error("Couldn't create database"));
+            </pre>
+        </div>
+      </div>
+      
+                  <!-- IMAGE RIGHT -->
+
+      <hr class="featurette-divider">
+
+      <div class="row featurette">
+        <div class="col-md-7">
+          <h2 class="featurette-heading">If our table exists: <span class="text-muted">How do we handle changes?</span></h2>
+          <p class="lead">That takes care of creating the table, but what if the table already exists?  Assumedly, we should just skip to the step where we add the data in.  Unfortunately, that won't quite work because people may have edited the survey--i.e. we might have new questions on a survey and our database needs to adapt appropriately.  So, how do we handle this?  First we tell the database to show us all of the columns.  Then, we fetch each row, creating an array where each item is the name of one of our columns.  We then create one long variable, separated by spaces with the name of each column, that way we can check the name of each variable currently being submitted.</p>
+        </div>
+        <div class="col-md-5">
+			<pre class="prettyprint lang-php">
+}else {
+    $sql = "SHOW COLUMNS FROM " . $survey . ";";
+    $result = mysqli_query($link,$sql)
+        or die(mysqli_error());
+    
+    //Create a blank variable called row check
+    $row_check = " ";
+
+    while($row = mysqli_fetch_row($result)){
+        echo $row[0] . "&lt;br /&gt;";
+        //Keep adding to row check
+        $row_check .=$row[0] . " ";
+    }
+            </pre>
+        </div>
+      </div>
+      
+            <!-- ----------- IMAGE LEFT ----------------- -->
+
+      <hr class="featurette-divider">
+      
+      <div class="row featurette">
+        <div class="col-md-12">
+          <h2 class="featurette-heading">Checking each submission: <span class="text-muted">Adapting our database for new fields</span></h2>
+          <p class="lead">Next, I need to write the query to create the table.  I need to include all of the fields, so I escape the $fields variable (which has been collecting our field names and data types).  I also remove the last character, which is a comma so that it won't mess up our query.  I then create variable to hold our query with the name of the survey and the $fields variable.  Finally, I execute the query to create the table for this survey.</p>
+
+			<pre class="prettyprint prettySmall lang-php">
+foreach($_POST as $k => $v){
+
+    //Create k new, so that one key doesn't get mistaken with another that has the same characters (i.e. V1 does return true for V12)
+    $k_new = " " . $k . " ";
+
+    //Check k new against row check. If it doesn't match, create a new column
+    if(strpos($row_check, $k_new)==false && !preg_match("/(:FORMAT:|:SURVEY:|:EMAIL:|:BUILD:|:USERID:|:PUBVER:|:FORMID:|:MSGENCODE:|:CHARSET:)/", $k)){
+        if($k==":OKPAGE:" && strpos($row_check, "xxxxOKPAGExxxx")==false){
+            $query = "ALTER TABLE " . $survey . " ADD COLUMN xxxxOKPAGExxxx text(9999);";
+            mysqli_query($link,$query)
+                or die(mysqli_error());
+        }else if($k==":OKPAGE:"){
+            //do nothing
+        }else{
+            $query = "ALTER TABLE " . $survey . " ADD COLUMN " . $k . " text(9999);";
+            mysqli_query($link,$query)
+                or die(mysqli_error());
+        }
+    }
+            </pre>
+        </div>
+      </div>
+
+      
+                  <!-- IMAGE RIGHT -->
+
+      <hr class="featurette-divider">
+
+      <div class="row featurette">
+        <div class="col-md-7">
+          <h2 class="featurette-heading">Handlng multi-response data: <span class="text-muted">How do we handle multi-response?</span></h2>
+          <p class="lead">So, now we have taken care of creating our table and taken care of adapting to changes to our table.  We can start working adding data to our table.  However, there is one small issue.  The Snap file expects multi-response data to be separated by commas but Post requests pass each submission in separetely.  (i.e. we want it to say V1=1;2;3 but the web page will pass it in as V1=1&V1=2&V1=3).  So, we need to write a function that will format this for us.  We will explode this stream by the & sign and then again by the = sign.  We then add our new values to an array, separating each with a semicolon.  Then finally, we use this function to format all of our responses.</p>
+        </div>
+        <div class="col-md-5">
+			<pre class="prettyprint prettySmall lang-php">
+function convertInput($qs=""){ 
+    $rtn = ""; 
+    $holdingArray = array(); 
+    if(trim($qs)!=""){ 
+         $vars = explode("&", $qs); 
+         foreach($vars as $val){ 
+              $kv = explode("=", $val); 
+                 if(count($kv)==2){ 
+                     if(isset($holdingArray[$kv[0]])){ 
+                         $holdingArray[$kv[0]] .= ";" . $kv[1]; 
+                     }else{ 
+                         $holdingArray[$kv[0]] = $kv[1]; 
+                    } 
+             } 
+        } 
+        $rtn = $holdingArray; 
+    } 
+    return $rtn; 
+} 
+
+//Pull data from php://input so that multi-response options can be picked up
+$_POST = convertInput(file_get_contents("php://input"));
+            </pre>
+        </div>
+      </div>
+      
+            
+            <!-- ----------- IMAGE LEFT ----------------- -->
+
+      <hr class="featurette-divider">
+      
+      <div class="row featurette">
+        <div class="col-md-12">
+          <h2 class="featurette-heading">Inserting the responses: <span class="text-muted">Finally submitting our data</span></h2>
+          <p class="lead">Now, we can finally begin the process of adding our data into the database.  We create variables called $fields and $values.  One will hold the names of our fields and the other will hold the values belonging to those fields.  This allows us to write out our query, declaring each column in our database.  Much like above, we need to get rid of the colon character as we created the fields with 'xxxx' in the field names.  Similarly to above, we trim off the last character, which will be a comma.  Then, write our query with the fields and values property and execute it.</p>
+          <p class="lead">Then, if they have a redirect URL (stored as OKPAGE), redirect them to that URL.  Otherwise, go to our default 'Thank you' page:</p>
+          
+			<pre class="prettyprint lang-php">
+//Reset fields and values
+$fields = "";
+$values = "";
+
+foreach ($_POST as $key=>$value)
+{
+            $key = str_replace("%3A","xxxx",$key);
+            //$value = str_replace("+"," ",$value);
+            $fields .= "$key,";
+            $values .= "'$value ',";
+}
+                            
+//remove the ending comma from $fields and $values
+$fields = substr($fields, 0, -1);
+$values = urldecode(substr($values, 0, -1));
+
+//insert the data into the appropriate fields in the database
+$sql = "INSERT INTO " . $survey . " ($fields) VALUES ($values)";
+mysqli_query($link,$sql)
+    or die(mysqli_error("Couldn't submit data"));
+    
+//Variable to hold the URL for redirect
+$okpage = $_POST[':OKPAGE:'];
+
+//If a redirect was specified take the respondent to that page
+//otherwise, take them to the default thank you page
+if($okpage)
+	header('Location: '.$okpage);
+else
+	header('Location: http://www.snapsurveys.com/swh/siam/surveylanding/surveyfinish.asp'); 
+            </pre>
+        </div>
+      </div>
+
+
+    </div><!-- /.container -->
+
+
+
+
+

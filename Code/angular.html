@@ -1,0 +1,397 @@
+
+    <!-- Carousel
+    ================================================== -->
+    <div id="header-section" class="introHeader" >
+    	<div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="intro-message">
+                        <h1>My Portfolio</h1>
+                        <h3>Using AngularJS to showcase my projects</h3>
+                        <hr class="intro-divider">
+                    </div>
+                </div>
+            </div>
+         </div>
+    </div> 
+
+
+
+    <!-- Marketing messaging and featurettes
+    ================================================== -->
+    <!-- Wrap the rest of the page in another container to center all the content. -->
+
+
+    <div class="container marketing">
+
+      <!-- START THE FEATURETTES -->
+      
+      <!-- IMAGE RIGHT -->
+
+
+      <div class="row featurette">
+        <div class="col-md-12">
+          <h2 class="featurette-heading">My Portfolio: <span class="text-muted">How I built this all with AngularJS</span></h2>
+          <p class="lead">My Portfolio has gone through a lot of different iterations (you can view my <a href="index_previous.html"> old version here</a>).
+          With the growing demand in AngularJS, I thought it would be great to build my portfolio on it.  The site is dynamic, loading not only all of 
+          examples from JSON, but loading different views depending on what you are trying to see.  This project took me less than a day to complete 
+          (granted that some of the write ups had already been done).</p>
+          <div class="example-image">
+			<img src="../AngularJS_Banner.jpg" width="100%" class="codeImage" />
+          </div>
+        </div>
+      </div>
+      
+      <!-- IMAGE LEFT -->
+
+      <hr class="featurette-divider">
+      
+      <div class="row featurette">
+      	
+        <div class="col-md-12">
+          <h2 class="featurette-heading">The JSON library: <span class="text-muted">Using JSON to store my project info</span></h2>
+          <p class="lead">The first thing was to store the information I wanted into JSON.  The pieces grew as the project went on, but overall, it 
+          didn't take very long to build.  The first thing I wanted for each was a unique ID--this could be anything, but I would need it later to 
+          use with my Views.  I included a description of the project, a link, an image URL, and a number I would use for tracking in an array later
+          (although this wasn't added until later in the project).</p>
+
+ 
+			<pre class="prettyprint prettySmall lang-js">
+{
+            id: "Portfolio", 
+			Title: 'My Portfolio - built with AngularJS', 
+			link: 'http://www.scottbatson.com/', 
+			description: 'Thanks for taking a look at my Portfolio.  This site was created using AngularJS, however the projects here cover a much wider range of languages.  Click on the Title to go back to my homepage and feel free to click around my projects.  Each one will have a link showing the web app and a link with some examples of the code I used as well as a breakdown of my thought process.  Feel free to check out how I did this portfolio with a full breakdown of all my AngularJS code.', 
+			skills: 'HTML5, CSS3, CSS Pre-Processors (LESS), CSS Media Queries, JavaScript, jQuery, jQuery Libraries, Bootstrap, WordPress, Twitter API, Facebook API, PHP, ASP, MySQL, SQL, Stored Procedures, C#, Java, JSON, XML, Unity3D, ActionScript, AngularJS, AJAX',
+			image: 'AngularJS_Banner.jpg',
+			exampleInt: 8
+        },
+		{
+            id: "AboutMe", 
+			Title: 'About Me', 
+			link: 'http://www.scottbatson.com/', 
+			description: 'Over the years, I have spent a lot of time taking classes and teaching myself new programming languages, techniques and software to better prepare myself for the professional world. I have a lot of real-world experience with languages ranging from SQL to C# to HTML5 and I spend a lot my freetime working on creative projects.  I am a really fast learner with a passion for technology and writing.  Feel free to look around my portfolio and let me know what you think.', 
+			skills: 'HTML5, CSS3, CSS Pre-Processors (LESS), CSS Media Queries, JavaScript, jQuery, jQuery Libraries, Bootstrap, WordPress, Twitter API, Facebook API, PHP, ASP, MySQL, SQL, Stored Procedures, C#, Java, JSON, XML, Unity3D, ActionScript, AngularJS, AJAX',
+			image: 'newScott.png',
+			exampleInt: 7
+        },
+        {
+            id: "Snap", 
+			Title: 'Snap Surveys - My work on client projects', 
+			link: 'http://www.snapsurveys.com/', 
+			description: 'Our website needed a huge overhaul after almost a decade of the same template. The largest issue we had was that it was not mobile friendly. Working with a team of developers and graphic designers, we implemented Twitter Bootstrap to update our site for modern business. This saw a huge increase in traffic and search engine results, bringing us back to the number 1 page on Google when searching for "Survey Software."\n\nMost of projects were for clients directly--building branded surveys as well as custom solutions for data collection.  One of my largest projects was creating a site for users to store and download data securely.', 
+			skills: 'Bootstrap, Wordpress, jQuery, woocommerce',
+			image: 'snapsurveys.png',
+			exampleInt: 3
+        },
+        {
+            id: "Hall", 
+			Title: 'Hall of Heroes - Video game tracker', 
+			link: 'http://scottbatson.com/hallofheroes/', 
+			description: 'My friends and I are avid gamers and spend a lot of our time discussing games, news in the industry and more. One thing we have done since 2006 is track which games we have beat in a forum thread called "Hall of Heroes." We wanted to add a little more ceremony to it and that is when this site was born. I use the GiantBomb API to search for games and my own user database to track the games people have beat. I have the site using both XML and JSON to pull results, PHP to store information in a MySQL database, AJAX to load content, jQuery to dynamically change the pages and lots of CSS3 tricks to make presentable.', 
+			skills: 'JSON, PHP, PDO, MySQL, Facebook API, AJAX, jQuery',
+			image: 'hallofheroes.png',
+			exampleInt: 5
+        },
+		{
+            id: "ScrapStreet", 
+			Title: 'Scrap Street Journal - Wordpress blog', 
+			link: 'http://scrapstreetjournal.com/', 
+			description: 'I work on a Wordpress site with some my friends where we post about video games, movies, TV and more.  I customized the theme myself utilzing media queries and advanced CSS3 tricks such as nth-child, nth-last-of and more.  Since I could not edit the source files directly, I had to come up with clever ways to get the styling I wanted.', 
+			skills: 'Wordpress, CSS3',
+			image: 'scrapstreet.png',
+			exampleInt: 6
+        }....
+    		</pre>
+      </div>
+      </div>
+      
+            <!-- IMAGE RIGHT -->
+
+      <hr class="featurette-divider">
+
+      <div class="row featurette">
+        <div class="col-md-7">
+          <h2 class="featurette-heading">Creating a service: <span class="text-muted">Making this data accessible</span></h2>
+          <p class="lead">Next, I needed to create service/factory in order to pull that information.  I name my application 'app' (because I'm 
+          clever like that) and create a service called 'projectsService.'  Our array with the JSON data is called 'projects.'  We create a function
+          called 'getProjects' that can be used by our controllers later.</p>
+        </div>
+        <div class="col-md-5">
+			<pre class="prettyprint prettySmall lang-js">
+var app = angular.module('projectsApp', ['ngRoute']);
+
+app.service('projectsService', function () {
+    this.getProjects = function () {
+        return projects;
+    };...
+    		</pre>
+        </div>
+      </div>
+      
+                  <!-- New Feature -->
+
+      <hr class="featurette-divider">
+
+      <div class="row featurette">
+        <div class="col-md-12">
+          <h2 class="featurette-heading">Creating a controller: <span class="text-muted">The C in MVC</span></h2>
+          <p class="lead">Next, we need to create a controller to pull this information.  We name it 'ProjectsController' and specify the
+          $scope and our service in the parameters.  I create an initialization function (init()) out of habit and so I can control the initialization
+          of my controller.  It's certainly not necessary for such a simple example, but it is good to control how everything is initialized.</p>
+			<pre class="prettyprint lang-js">
+app.controller('ProjectsController', function ($scope, projectsService) {
+    init();
+
+    function init() {
+        	$scope.projects = projectsService.getProjects();
+    }
+});
+			</pre>
+        </div>
+      </div>
+      
+                  <!-- IMAGE RIGHT -->
+
+      <hr class="featurette-divider">
+
+      <div class="row featurette">
+        <div class="col-md-7">
+          <h2 class="featurette-heading">Creating Views: <span class="text-muted">The View in MVC</span></h2>
+          <p class="lead">The next thing to do was to create the HTML splash page that would have our view.  The main page is really simple in the 
+          body (I'll exclude the CSS and JS files I load, but you can look at the source of this page if you're curious).  Everything will be placed in 
+          'ng-view' Div.  We next need to load in some a partial HTML file that will server as our default view. I named it 'projects.html' and will show
+          us all of the projects in articles.  I won't go into detail on how I set up the CSS but you can view the portfolioStyles.css file in the source.</p>
+        </div>
+        <div class="col-md-5">
+			<pre class="prettyprint prettySmall lang-html">
+&ltheader id="masthead"&gt
+    	&lth1 id="pageTitle"&gt
+        	&lta href="portfolio.html#/projects"&gtScott Batson's Porfolio&lt/a&gt
+        &lt/h1&gt
+&lt/header&gt
+&ltdiv id="wrapper"&gt
+	&ltdiv ng-view&gt&lt/div&gt
+&lt/div&gt
+    		</pre>
+            <pre class="prettyprint prettySmall lang-html">
+&ltmain id="main" ng-controller="ProjectsController"&gt
+    &ltarticle ng-repeat="proj in projects" id="{ { proj.id } }" class="project-item"&gt
+        &ltimg class="grid-image" src="{ { proj.image } }" /&gt
+        &ltheader class="project-header"&gt
+            &lth1 class="entry-title"&gt { { proj.Title } } &lt/h1&gt
+        &lt/header&gt
+        &lta href="#/info/{ { proj.id } }" class="entry-link"&gt&lt/a&gt
+    &lt/article&gt
+&lt/main&gt
+          </pre>  
+        </div>
+      </div>
+      
+                        <!-- New feature-->
+
+      <hr class="featurette-divider">
+
+      <div class="row featurette">
+        <div class="col-md-12">
+          <h2 class="featurette-heading">Pages for each project: <span class="text-muted">Loading another view</span></h2>
+          <p class="lead">The goal was to display all of the projects in a grid and when you click on one, you can see additional information
+          on that specific project.  In order to that, we need another partial HTML file that knows which project info to load. This is why the 
+          links above pass in the project's id.  We can then use that to find the project we want.  The first step is to rework both our controller and
+          service to find the right project.  We add a new function to our service called </p>
+         
+			<pre class="prettyprint lang-js">
+this.getSpecific = function (id) {
+	//search through every item in our projects object
+    for(i=0;i&ltprojects.length;i++)
+    {
+    	//does our current project match our parameter
+        if(projects[i].id == id)
+            return projects[i];
+    }
+};
+    		</pre>
+             <p class="lead">Then, we need to change our controller to accept parameters.  Then, if we have a parameter, it needs to call the appropriate
+          function from our service.</p>
+            <pre class="prettyprint lang-js">
+app.controller('ProjectsController', function ($scope, $routeParams, projectsService) {
+    init();
+
+    function init() {
+		//if there are paramaters (id) call getSpecific
+		var hasParams = Boolean(Object.keys($routeParams).length);
+		if(hasParams)
+		{
+			$scope.projects = projectsService.getSpecific($routeParams.id);
+		}
+		//otherwise, pull them all
+		else
+		{
+			$scope.projects = projectsService.getProjects();
+		}
+    }
+});
+    		</pre>
+        </div>
+      </div>
+      
+                        <!-- IMAGE RIGHT -->
+
+      <hr class="featurette-divider">
+
+      <div class="row featurette">
+        <div class="col-md-12">
+          <h2 class="featurette-heading">Creating our details page: <span class="text-muted">Another partial HTML file</span></h2>
+          <p class="lead">Our next view will display info about each project when selected.  We need to specify our controller here and write
+          the appropriate information based on the project that is pulled in.  Here, we start setting up another view (my code example page) that 
+          will be set up next.  Hence the '#/code/' links.</p>
+			<pre class="prettyprint prettySmall lang-js">
+&ltmain id="main" ng-controller="ProjectsController"&gt
+&ltdiv class="container"&gt
+            &ltdiv class="row main-low-margin"&gt
+                &ltdiv class="col-md-6 margin-top-down"&gt
+                    &lth2&gtProject Description&lt/h2&gt
+                    &ltp class="add-new-lines"&gt { {projects.description} }&lt/p&gt
+                    &ltbr /&gt
+                    &ltp&gtYou can view the project &lta href="{ {projects.link} }"&gthere&lt/a&gt&lt/p&gt
+                    &ltp&gtYou can also see some examples of my code &lta href="#/code/{ { projects.id } }"&gthere&lt/a&gt&lt/p&gt
+                    &lth2&gtSkills Used&lt/h2&gt
+                    &ltp&gt { {projects.skills} }&lt/p&gt
+                &lt/div&gt
+                &ltdiv class="col-md-6"&gt
+                    &ltimg src="{ {projects.image} }"/&gt
+                &lt/div&gt
+            &lt/div&gt
+        &lt/div&gt
+&lt/main&gt
+		</pre>
+        </div>
+      </div>
+      
+                        <!-- IMAGE RIGHT -->
+
+      <hr class="featurette-divider">
+
+      <div class="row featurette">
+        <div class="col-md-12">
+          <h2 class="featurette-heading">Controlling our routes: <span class="text-muted">Controlling when these pages are shown</span></h2>
+          <p class="lead">With AngularJS, we need to specify when views are shown by managing our routes.  In my app.js file, I next specify
+          when each page is loaded.  Here, we can really control how everything is loaded and this makes it really easy to change the site quickly
+          if needed.  We create our default (projects.html) and make it redirect there if nothing is specified.  We create one for our details page
+          and then our final one is for our code examples page (which is what you are viewing now). </p>
+			<pre class="prettyprint lang-js">
+app.config(['$routeProvider',
+  function($routeProvider) {
+    $routeProvider.
+      when('/projects', {
+        templateUrl: 'partials/projects.html',
+        controller: 'ProjectsController'
+      }).
+      when('/info/:id', {
+        templateUrl: 'partials/details.html',
+        controller: 'ProjectsController'
+      }).
+	  when('/code/:id', {
+        templateUrl: 'code/examples.html',
+        controller: 'CodePageController'
+      }).
+      otherwise({
+        redirectTo: '/projects'
+      });
+  }]);
+    		</pre>
+        </div>
+      </div>
+      
+                              <!-- IMAGE RIGHT -->
+
+      <hr class="featurette-divider">
+
+      <div class="row featurette">
+        <div class="col-md-12">
+          <h2 class="featurette-heading">My code pages: <span class="text-muted">Using what I had already created</span></h2>
+          <p class="lead">In my old portfolio, I had written up a lot of the examples you see here.  I really didn't want to recreate everything 
+          from scratch.  Luckily, Angular allows me to 'include' html files in a view. I simply stripped out everything but the body of the page, and included 
+          that in my new partial: examples.html.</p>
+			<pre class="prettyprint lang-js">
+&ltmain ng-controller="CodePageController"&gt
+    &ltdiv ng-include="activePage.url"&gt&lt/div&gt
+&lt/main&gt
+    		</pre>
+          <p class="lead">As you can see, I need a new controller to control how this information is pulled.  The reason for this is that I need to control
+          which HTML doc is loaded based on the project ID at that time.  For that reason, I need a new array that controlls all of the URLs I need.  We can 
+          use the same functions from our service to pull the project, but now we want to specify what the 'activePage' is based on the 'exampleInt' I 
+          specified in our projects object.  Our 'allPages' array corresponds those values to the appropriate HTML.  It works kind of like a view, although
+          there is certainly more overhead here.  However, it saved me from having to recreate the wheel with this project.</p>
+          <pre class="prettyprint lang-js">
+app.controller('CodePageController', function ($scope, $routeParams, projectsService) {
+    init();
+
+    function init() {
+		//if there are paramaters (id) call getSpecific
+		//there should always be params on this page, but it is best to check
+		var hasParams = Boolean(Object.keys($routeParams).length);
+		if(hasParams)
+		{
+			$scope.projects = projectsService.getSpecific($routeParams.id);
+		}
+		//otherwise, pull them all
+		else
+		{
+        	$scope.projects = projectsService.getProjects();
+		}
+		
+		//our array which will hold all of our URL values
+		$scope.allPages = [
+		{
+			url: 'code/adminjs.html' //0
+		},
+		{
+			url: 'code/draft.html' //1
+		},
+		{
+			url: 'code/tileCode.html' //2
+		},
+		{
+			url: 'code/submitCode.html' //3
+		},
+		{
+			url: 'code/storedProc.html' //4
+		},
+		{
+			url: 'code/hallofheroes.html' //5
+		},
+		{
+			url: 'code/scrapStreet.html' //6
+		},
+		{
+			url: 'code/angular.html' //7
+		},
+		{
+			url: 'code/angular.html' //7
+		}]
+		
+		//our JSON list of projects will give us the int we need in order to load the right page
+		$scope.activePage = $scope.allPages[$scope.projects.exampleInt];
+    }
+});
+    		</pre>
+        </div>
+      </div>
+      
+            <hr class="featurette-divider">
+
+      <div class="row featurette">
+        <div class="col-md-12">
+          <h2 class="featurette-heading">The Final product: <span class="text-muted">Everything that was used</span></h2>
+          <p class="lead">The project pretty much just uses AngularJS, although I load Bootstrap just for some quick styling (and because my old code 
+          pages were created on it).  I encourage you to take a look at the CSS files to see how I did the styling.  Overall, this project didn't take me 
+          too long (in fact, writing it up probably took me longer).  It was a fun project and an excuse to dabble with Angular more.</p>
+        </div>
+      </div>
+
+    </div><!-- /.container -->
+
+
+
+

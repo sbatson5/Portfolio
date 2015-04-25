@@ -1,0 +1,344 @@
+
+    <!-- Carousel
+    ================================================== -->
+    <div id="header-section" class="introHeader" >
+    	<div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="intro-message">
+                        <h1>Wordpress Blog</h1>
+                        <h3>Editing the CSS to customize a Wordpress Template</h3>
+                        <hr class="intro-divider">
+                    </div>
+                </div>
+            </div>
+         </div>
+    </div> 
+
+
+
+    <!-- Marketing messaging and featurettes
+    ================================================== -->
+    <!-- Wrap the rest of the page in another container to center all the content. -->
+
+
+    <div class="container marketing">
+
+      <!-- START THE FEATURETTES -->
+      
+      <!-- IMAGE RIGHT -->
+
+
+      <div class="row featurette">
+        <div class="col-md-12">
+          <h2 class="featurette-heading">Scrap Street Journal: <span class="text-muted">Community blog</span></h2>
+          <p class="lead">I run a community blog with a few of my friends where we talk about Video Games, Movies, Comics, and TV.  It is mostly a casual
+          project but we did want to give it a somewhat professional feel.  We wanted to use a pre-existing template but make it our own without too much 
+          legwork.  The limitation was that we were hosting on Wordpress.com (I didn't want to pay hosting costs for another site) and could therefore
+          only <i>add</i> my own CSS--I couldn't write any JavaScript nor could I edit the existing CSS that was already there.</p>
+          <div class="example-image">
+			<img src="../scrapstreet.png" width="100%" class="codeImage" />
+          </div>
+        </div>
+      </div>
+      
+      <!-- IMAGE LEFT -->
+
+      <hr class="featurette-divider">
+      
+      <div class="row featurette">
+      	
+        <div class="col-md-12">
+          <h2 class="featurette-heading">Editing our grid: <span class="text-muted">Making the first few posts stand out</span></h2>
+          <p class="lead">The first thing I wanted to do was make the first 4 posts take up 50% of the page each.  The Grid theme we were using had 
+          everything at 33.3333% so that they fit nicely 3 wide on each row.  To overwrite this, I need to write a style that only applied to the first 4
+          articles and not all of them.  The default style cleared to the left, and we need to remove that rule, otherwise we would get breaks when we didn't 
+          want them.</p>
+ 
+			<pre class="prettyprint lang-css">
+#main article:nth-of-type(-n+4) {
+	width: 50%;
+	font-size: 120%;
+}
+
+#main article {
+	clear: none;
+}
+    		</pre>
+      	</div>
+      </div>
+      
+            <!-- IMAGE RIGHT -->
+
+      <hr class="featurette-divider">
+
+      <div class="row featurette">
+        <div class="col-md-12">
+          <h2 class="featurette-heading">Effects on all pages: <span class="text-muted">Compensating for these changes</span></h2>
+          <p class="lead">Now this change looked great on the main page.  I even added some margins to the 3rd and 4th items to get some whitespace.  
+          However, all pages use the same CSS file--which meant that if you loaded up an article, it would only be 50% wide because it was technically 
+          one of the first 4 articles on the page.  So, I needed to write a rule that allowed the first 4 to be 50% but not the one on the actual blog posts.
+          My first thought was to make it only apply to the last article listed (afterall, there was only 1 listed on the posts).  This fixed the posts, but then
+          the main page had spacing issues because the last item in the grid would always be 100%.  So, I wrote another rule to state that if it is the last 
+          article and it has an article preceeding it, then switch it back to 33.3333%.</p>
+			<pre class="prettyprint  lang-css">
+/*styles for article posts*/
+/*if it is the last article and there are no articles preceeding
+it, we make it 100%--this is what gives us the full image
+on the last page*/
+#main article:nth-last-of-type(1), .entry-content {
+	width: 100%;
+	font-size: 120%;
+}
+
+#main article:nth-last-of-type(1) .entry-thumbnail {
+	height: 500px !important;
+}
+
+/*we need to apply a style so that the last post on the
+the main page isn't 100%*/
+#main article + article:nth-last-of-type(1) {
+	width: 33.333333%;
+}
+    		</pre>
+        </div>
+      </div>
+      
+                  <!-- New Feature -->
+
+      <hr class="featurette-divider">
+
+      <div class="row featurette">
+        <div class="col-md-12">
+          <h2 class="featurette-heading">Editing the menu: <span class="text-muted">Rewriting the sidebar styles</span></h2>
+          <p class="lead">The next challenge was dealing with the menu bar.  The default menu would take up the entire page when you clicked on it and 
+          (worst of all) it would hide all the other content by setting the display to "none."  First, I specify that the 'main' element has a display
+          of 'block' and set it to "!important" so that this rule won't be overwritten (as it is since they use JS to write the style in-line).  </p>
+          <p class="lead">Next, I began to rewrite the styles of the sidebar.  I wanted it to appear in the upper right corner, have a slight shadow to add
+          depth and edit the font sizes so that it looked more like a menu and less like a whole page.  Ultimately, I found a happy ground, without having
+          to completely rewrite it from scratch.</p>
+			<pre class="prettyprint lang-css">
+#main {
+	display: block !important;
+}
+
+/*styles on the menu bar*/
+#sidebar {
+	width: 20%;
+	z-index: 2;
+	position: fixed;
+	left: 80%;
+	min-height: 500px !important;
+	box-shadow: 0 10px 10px #222;
+}
+
+#sidebar #site-navigation a {
+	font-size: 120%;
+	text-align: center;
+}
+
+#sidebar #site-navigation h1 {
+	font-size: 150%;
+	text-align: center;
+}
+
+#sidebar .sidebar-content {
+	width: 100%;
+}
+		</pre>
+        </div>
+      </div>
+      
+                        <!-- New Feature -->
+
+      <hr class="featurette-divider">
+
+      <div class="row featurette">
+        <div class="col-md-12">
+          <h2 class="featurette-heading">Other small changes <span class="text-muted">Finagling the page</span></h2>
+          <p class="lead">Everytime I would add a style, it would affect something I hadn't thought of and I would have to rework my CSS.  This led to 
+          a lot more custome styling than I had thought.  Rather than going through each rule I added, I thought I would post all of the CSS.  This should
+          show my thought process and how the page came to be.  All of my custom rules had to be rewritten with the media queries as they would often not look
+          right when I resized.  You can vist the site at <a href="http://scrapstreetjournal.com">ScrapStreetJournal.com</a> and see these styles firsthand.</p>
+			<pre class="prettyprint lang-css">
+/*
+Scott's custom CSS for the Cubic theme
+*/
+/*Making the first 4 elements 2-wide instead of 3*/
+#main article + article:nth-last-of-type(1) .entry-thumbnail {
+	height: 100% !important;
+}
+
+#main article:nth-of-type(-n+4) {
+	width: 50%;
+	font-size: 120%;
+}
+
+#main article {
+	clear: none;
+}
+
+#colophon {
+	color: #fff !important;
+}
+
+/*add a margin after article 3 and 4*/
+#main article:nth-of-type(3), #main article:nth-of-type(4) {
+	margin-bottom: 100px;
+	box-shadow: 0 10px 10px #aaa;
+}
+
+/*add a top margin for the first 2 articles */
+#main article:nth-of-type(-n+2) {
+	margin-top: 20px;
+}
+
+#main {
+	width: 90%;
+	margin: auto;
+	display: block !important;
+}
+
+/*styles for article posts*/
+/*if it is the last article and there are no articles preceeding
+it, we make it 100%--this is what gives us the full image
+on the last page*/
+#main article:nth-last-of-type(1), .entry-content {
+	width: 100%;
+	font-size: 120%;
+}
+
+#main article:nth-last-of-type(1) .entry-thumbnail {
+	height: 500px !important;
+}
+
+/*we need to apply a style so that the last post on the
+the main page isn't 100%*/
+#main article + article:nth-last-of-type(1) {
+	width: 33.333333%;
+}
+
+#main article {
+	transition: all .7s ease;
+	-moz-transition: all .7s ease;
+	-o-transition: all .7s ease;
+}
+
+.byline {
+	color: #000;
+}
+
+body:not(.filter-on) .hentry.has-post-thumbnail .entry-header {
+	background: rgba(0,0,0,0.7);
+}
+
+img.wp-post-image {
+	min-height: inherit !important;
+}
+
+/*black and white hover */
+.hentry.has-post-thumbnail:hover .entry-link {
+	background-color: #000;
+	opacity: .3;
+}
+
+/*styles on the menu bar*/
+#sidebar {
+	width: 20%;
+	z-index: 2;
+	position: fixed;
+	left: 80%;
+	min-height: 500px !important;
+	box-shadow: 0 10px 10px #222;
+}
+
+#sidebar #site-navigation a {
+	font-size: 120%;
+	text-align: center;
+}
+
+#sidebar #site-navigation h1 {
+	font-size: 150%;
+	text-align: center;
+}
+
+#sidebar .sidebar-content {
+	width: 100%;
+}
+
+/*styles for posts*/
+p {
+	font-size: 90% !important;
+	z-index: 3;
+	width: 100%;
+}
+
+@media (max-width: 1400px) {
+	#sidebar, #sidebar .sidebar-content {
+		padding: 10px;
+	}
+	
+	#menu article h1 {
+		font-size: 80%;
+	}
+}
+
+@media (max-width: 1100px) {
+	#sidebar {
+		width: 40%;
+		left: 60%;
+	}
+	
+	img.wp-post-image {
+		height: inherit !important;
+	}
+}
+
+@media (max-width: 1023px) {
+	#main article + article:nth-last-of-type(1) {
+		width: 50%;
+	}
+}
+
+@media (max-width: 579px) {
+	#main article:nth-of-type(-n+4) {
+		width: 100%;
+		margin-bottom: 0;
+		font-size: 100%;
+	}
+	
+	#main {
+		width: 100%;
+		margin: auto;
+	}
+	
+	#sidebar {
+		width: 100%;
+		left: 0;
+	}
+	
+	#main article:nth-of-type(-n+2) {
+		margin-top: 0;
+	}
+	
+	#main article:nth-of-type(3), #main article:nth-of-type(4) {
+		margin-bottom: 0;
+		box-shadow: 0 0 0 #aaa;
+	}
+	
+	#main article + article:nth-last-of-type(1) {
+		width: 100%;
+	}
+}/* CSS Document */
+
+
+		</pre>
+        </div>
+      </div>
+      
+                 
+    </div><!-- /.container -->
+
+
+
+
