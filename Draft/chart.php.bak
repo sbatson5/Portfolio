@@ -1,0 +1,65 @@
+<DOCTYPE HTML>
+
+<?php
+
+require ("db_connection.php");
+
+$sql = "SELECT R1, COUNT(*) as c FROM draft WHERE pick=1 GROUP BY R1;";
+
+$round1 = mysqli_query($link,$sql)
+	or die(mysqli_error());
+
+$round1_array = array();
+$round2_array = array();
+$player_array = array();
+$i = 0;
+
+while($row = mysqli_fetch_row($round1))
+{
+	$player_array[$i] = $row[0];
+	$round1_array[$i] = $row[1];
+	$i++;
+}
+
+$sql2 = "SELECT R2, COUNT(*) as c FROM draft WHERE pick=1 GROUP BY R2;";
+
+$round2 = mysqli_query($link,$sql2)
+	or die(mysqli_error());
+$j = 0;
+
+while($row = mysqli_fetch_row($round1))
+{
+	$round2_array[$j] = $row[1];
+	$j++;
+}
+
+
+?>
+<head>
+	<script type="text/javascript" src="src/jquery.min.js"></script>
+	<script type="text/javascript" src="src/jquery.jqplot.js"></script>
+	<script type="text/javascript" src="src/excanvas.min.js"></script>
+	<script type="text/javascript" src="src/plugins/jqplot.barRenderer.min.js"></script>
+	<script type="text/javascript" src="src/plugins/jqplot.categoryAxisRenderer.min.js"></script>
+	<script type="text/javascript" src="src/plugins/jqplot.pointLabels.min.js"></script>
+	<script type="text/javascript" src="scripts/plot.js"></script>
+
+	<link rel="stylesheet" href="src/jquery.jqplot.min.css" />
+</head>
+<body>
+
+	<input type="hidden" value="<?php echo $player_array[0]; ?>" id="title1" />
+	<input type="hidden" value="<?php echo $player_array[1]; ?>" id="title2" />
+	<input type="hidden" value="<?php echo $player_array[2]; ?>" id="title3" />
+	<input type="hidden" value="<?php echo $round1_array[0]; ?>" id="s1a" />
+	<input type="hidden" value="<?php echo $round1_array[1]; ?>" id="s2a" />
+	<input type="hidden" value="<?php echo $round1_array[2]; ?>" id="s3a" />
+
+	<input type="hidden" value="<?php echo $round2_array[0]; ?>" id="s1b" />
+	<input type="hidden" value="<?php echo $round2_array[1]; ?>" id="s2b" />
+	<input type="hidden" value="<?php echo $round2_array[2]; ?>" id="s3b" />
+	<div id="chart1" style="height:400px;width:1000px;">
+
+	</div>
+</body>
+</html>

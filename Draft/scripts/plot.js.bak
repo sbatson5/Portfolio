@@ -1,0 +1,59 @@
+$(document).ready(function(){
+	
+	var s1a =  parseFloat ($('#s1a').val());
+	var s2a = parseFloat ($('#s2a').val());
+	var s3a = parseFloat ($('#s3a').val());
+
+	var s1b =  parseFloat ($('#s1b').val());
+	var s2b = parseFloat ($('#s2b').val());
+	var s3b = parseFloat ($('#s3b').val());
+
+	var title1 = $('#title1').val();
+	var title2 = $('#title2').val();
+	var title3 = $('#title3').val();
+
+
+    var s1 = [s1a, s1b];
+    var s2 = [s2a, s2b];
+    var s3 = [s3a, s3b];
+    // Can specify a custom tick Array.
+    // Ticks should match up one for each y value (category) in the series.
+    var ticks = ['Average', 'Score'];
+     
+    var plot1 = $.jqplot('chart1', [s1, s2, s3], {
+        // The "seriesDefaults" option is an options object that will
+        // be applied to all series in the chart.
+        seriesDefaults:{
+            renderer:$.jqplot.BarRenderer,
+            rendererOptions: {fillToZero: true}
+        },
+        // Custom labels for the series are specified with the "label"
+        // option on the series option.  Here a series option object
+        // is specified for each series.
+        series:[
+            {label:title1},
+            {label:title2},
+            {label:title3}
+        ],
+        // Show the legend and put it outside the grid, but inside the
+        // plot container, shrinking the grid to accomodate the legend.
+        // A value of "outside" would not shrink the grid and allow
+        // the legend to overflow the container.
+        legend: {
+            show: true,
+            placement: 'outsideGrid'
+        },
+        axes: {
+            // Use a category axis on the x axis and use our custom ticks.
+            xaxis: {
+                renderer: $.jqplot.CategoryAxisRenderer,
+                ticks: ticks
+            },
+            // Pad the y axis just a little so bars can get close to, but
+            // not touch, the grid boundaries.  1.2 is the default padding.
+            yaxis: {
+                min: 0
+            }
+        }
+    });
+});

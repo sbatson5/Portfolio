@@ -1,0 +1,443 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    
+
+    <title>Code for Draft App</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Custom styles for this template -->
+    <link href="css/carousel.css" rel="stylesheet">
+	<link href="css/map.css" rel="stylesheet">
+	<link href="css/prettify.css" rel="stylesheet" />
+
+
+<!-- Google Map Test -->
+
+
+  </head>
+<!-- NAVBAR -->
+  <body>
+    <div class="navbar-wrapper">
+      <div class="container">
+
+        <div class="navbar navbar-inverse navbar-static-top" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              <a class="navbar-brand" href="#">Project name</a>
+            </div>
+            <div class="navbar-collapse collapse">
+              <ul class="nav navbar-nav">
+                <li class="active"><a href="#">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
+                  <ul class="dropdown-menu">
+                    <li><a href="#">Action</a></li>
+                    <li><a href="#">Another action</a></li>
+                    <li><a href="#">Something else here</a></li>
+                    <li class="divider"></li>
+                    <li class="dropdown-header">Nav header</li>
+                    <li><a href="#">Separated link</a></li>
+                    <li><a href="#">One more separated link</a></li>
+                  </ul>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+
+    <!-- Carousel
+    ================================================== -->
+    <div id="header-section" >
+          <section id="story-freez">
+                        <article>
+                          
+                        </article>
+                        <div class="parallax" data-velocity="-.3" ></div>
+                    </section> 
+       
+    </div> 
+
+
+
+    <!-- Marketing messaging and featurettes
+    ================================================== -->
+    <!-- Wrap the rest of the page in another container to center all the content. -->
+
+
+    <div class="container marketing">
+
+      <!-- START THE FEATURETTES -->
+
+      <hr class="featurette-divider">
+<!--
+<form action="chart.php" method="get">
+                Pick your round:
+                <select name="round">
+                    <option value="1">Round 1</option>
+                    <option value="2">Round 2</option>
+                    <option value="3">Round 3</option>
+                    <option value="4">Round 4</option>
+                    <option value="5">Round 5</option>
+                    <option value="6">Round 6</option>
+                    <option value="7">Round 7</option>
+                    <option value="8">Round 8</option>
+                    <option value="9">Round 9</option>
+                    <option value="10">Round 10</option>
+                    <option value="11">Round 11</option>
+                    <option value="12">Round 12</option>
+                    <option value="13">Round 13</option>
+                    <option value="14">Round 14</option>
+                    <option value="15">Round 15</option>
+                </select>
+                
+                Select your pick:
+                <select name="pick">
+                    <option value="1">Pick 1</option>
+                    <option value="2">Pick 2</option>
+                    <option value="3">Pick 3</option>
+                    <option value="4">Pick 4</option>
+                    <option value="5">Pick 5</option>
+                    <option value="6">Pick 6</option>
+                    <option value="7">Pick 7</option>
+                    <option value="8">Pick 8</option>
+                    <option value="9">Pick 9</option>
+                    <option value="10">Pick 10</option>
+                    <option value="11">Pick 11</option>
+                    <option value="12">Pick 12</option>
+                </select>
+                
+                <input type="submit" value="Submit" />
+            
+            </form>
+-->
+
+      <div class="row featurette">
+        <div class="col-md-7">
+          <h2 class="featurette-heading">The goal: <span class="text-muted">Report on the results of Fantasy Football mock drafts.</span></h2>
+          <p class="lead">As someone who has played fantasy football for many years, I am always looking for a way to get ahead.  I run through many
+          mock drafts throughout the preseason to get a better idea of my potential roster.  However, it doesn't allow me to better predict my
+          final roster.  It would be nice to take the results of my mock drafts and make something meaningful from them.  However, when I receive my results,
+          they come to me an in as an HTML email with a bunch of unnecessary information</p>
+        </div>
+        <div class="col-md-5">
+          	<pre class="prettyprint">
+Round by Round results
+* your team in bold
+Round 1
+(1) Stuart Mason - Jamaal Charles (KC - RB) 
+(2) Hai Vang - Adrian Peterson (Min - RB) 
+(3) Amar Jani - LeSean McCoy (Phi - RB) 
+(4) The Empire - Matt Forte (Chi - RB) 
+(5) Adam - Calvin Johnson (Det - WR) 
+(6) YGFT3 - Jimmy Graham (NO - TE) 
+(7) Tom - Eddie Lacy (GB - RB) 
+(8) Kyle - Montee Ball (Den - RB)
+...
+             </pre>
+        </div>
+      </div>
+      
+      <!-- -->
+
+      <hr class="featurette-divider">
+      
+      <div class="row featurette">
+      	<div class="col-md-5">
+			<img src="images/spreadsheet.png" width="100%" class="codeImage" />
+        </div>
+        <div class="col-md-7">
+          <h2 class="featurette-heading">The Data: <span class="text-muted">How can we report on it?</span></h2>
+          <p class="lead">In order to report on the results, we need to get it into a meaningful format.  For instance, we 
+          should try to get the data into a database.  This will allow us to archive our data easily, but will also allow
+          us to query it quickly.  Most of my experience is with PHP and MySQL--which seem like natural fits for this job.
+          The draft data should be sortable by pick and by round.  The best way to do this would be to have a single
+          person's results be one record (i.e. one row in our database) where each field is a round pick.</p>
+        </div>
+      
+      </div>
+      
+      <!-- IMAGE RIGHT -->
+      
+      <hr class="featurette-divider">
+      
+            <div class="row featurette">
+        <div class="col-md-7">
+          <h2 class="featurette-heading">Editing what we're given: <span class="text-muted">How do we take the results and parse into a database?</span></h2>
+          <p class="lead">At the end of a mock draft, the results are emailed to me.  Of course, this email has a ton of extra lines we don't need.
+          As you can see in the first example, it also gives us the name of each user in the draft.  What we want is a cleaned version without all
+          of the junk.  The end result should be just the player names with the team and position in parenthesis.</p>
+        </div>
+        <div class="col-md-5">
+          	<pre class="prettyprint">
+Jamaal Charles (KC - RB) 
+Adrian Peterson (Min - RB) 
+LeSean McCoy (Phi - RB) 
+Matt Forte (Chi - RB) 
+Calvin Johnson (Det - WR) 
+Jimmy Graham (NO - TE) 
+Eddie Lacy (GB - RB) 
+Montee Ball (Den - RB)
+...
+             </pre>
+        </div>
+      </div>
+      
+      <!-- IMAGE LEFT -->
+
+      <hr class="featurette-divider">
+      
+      <div class="row featurette">
+      	<div class="col-md-5">
+          	<pre class="prettyprint lang-php">
+$array = split("\n", file_get_contents('results.txt'));
+   $valid = false;
+   $fp = "raw.txt";
+   $string = "";
+
+   foreach($array as $fields)
+   {
+      
+      if (strpos($fields, "ound ") == true)
+      {
+         if(strpos($fields, "ound below") == false)
+            $valid = true;
+      }
+
+      if($valid == true)
+      {
+         if (strpos($fields, '-') == true)
+         {
+            $fields = explode("-", $fields, 2);
+            $string .= ltrim($fields[1])."\n";
+         }
+      }
+   }
+   file_put_contents($fp, $string);
+             </pre>
+        </div>
+        <div class="col-md-7">
+          <h2 class="featurette-heading">Cleaning the results: <span class="text-muted">How do we strip the emails down?</span></h2>
+          <p class="lead">First, I save the email as a .txt file called 'results.txt.'  This allows me to easily open it with PHP.
+          Then I want to load each line of the text file into an array; that way I can move through the array, delete the lines
+          I don't need and strip out the information that isn't necessary.  Since the emails have a ton of lines in the beginning, 
+          I tell my script not start counting until it finds "ound " in the text.  That is when it begins to list the players.
+          However, there is one instance in the beginning of the email where it says "you can view each round below."  Since this
+          only appears once, it is easy to simply write one if condition to skip it over.</p>
+          
+          <p class="lead">So, the script will not start utnil our variable called $valid" is set to true.  Once it is set to true
+          it needs to make sure we have a valid line.  Since each line includes a '-' we can make sure that our line has one. If it does
+          we will count it as a draft pick.  This allows us to skip blank lines and the round titles.  Next, we need to strip out the user's name.
+          Since the user's name and the drafted player are separated by a '-' we can explode the line on that character.  This creates an array called 
+          $fields and we want to keep the second index counting from 0 ($fields[1]).  We write this to a string and write that string to our text file.
+          </p>
+        </div>
+      
+      </div>
+      
+            <!-- IMAGE RIGHT -->
+      
+      <hr class="featurette-divider">
+      
+            <div class="row featurette">
+        <div class="col-md-7">
+          <h2 class="featurette-heading">Parsing the data: <span class="text-muted">How do we re-arrange the results?</span></h2>
+          <p class="lead">Having each player listed in order is certainly neater, but we aren't much closer to reporting on it.
+          The end result was to have one person's results as one record in our database.  The data now is just a list of players
+          in the order in which they were drafted.  However, I want to see all of the players each user selected.  In a standard snake
+          draft, the picks go from 1-12.  The person with the first pick, picks first.  The person with the second pick, picks second.
+          And so on.  When the second round comes, it begins again but in reverse order.  The person with the twelfth pick, picks first.
+          The person with the eleventh pick, picks second.  Now, we need to track each person's picks.</p>
+          
+          <p class="lead"> For example, if I have the first pick in a 12-team league I would pick first then my second pick would be the
+          twenty-fourth pick overall.  My third would be the twenty-fifth and my fourth would be the forty-eigth.  In order to track this,
+          I wrote it out.  This allowed me to check my work.  The end result that I want, however is a 2D array.  This is an array of arrays,
+          where each array is one persons draft results.  That way, I can view the array as: $draft[1][3].  This would show me the third pick
+          for the user who had the first overall pick in the draft.  If I were to write out this entire array, it would look like this code shown.
+          </p>
+        </div>
+        <div class="col-md-5">
+          	<pre class="prettyprint lang-php">
+$overallpicks = array
+(
+   $pickone = array(0,1,24,25,48,49,72,73,96,97,120,121,144,145,168,169),
+   $picktwo = array(0,2,23,26,47,50,71,74,95,98,119,122,143,146,167,170),
+   $pickthree = array(0,3,22,27,46,51,70,75,94,99,118,123,142,147,166,171),
+   $pickfour = array(0,4,21,28,45,52,69,76,93,100,117,124,141,148,165,172),
+   $pickfive = array(0,5,20,29,44,53,68,77,92,101,116,125,140,149,164,173),
+   $picksix = array(0,6,19,30,43,54,67,78,91,102,115,126,139,150,163,174),
+   $pickseven = array(0,7,18,31,42,55,66,79,90,103,114,127,138,151,162,175),
+   $pickeight = array(0,8,17,32,41,56,65,80,89,104,113,128,137,152,161,176),
+   $picknine = array(0,9,16,33,40,57,64,81,88,105,112,129,136,153,160,177),
+   $pickten = array(0,10,15,34,39,58,63,82,87,106,111,130,135,154,159,178),
+   $pickeleven = array(0,11,14,35,38,59,62,83,86,107,110,131,134,155,158,179),
+   $picktwelve = array(0,12,13,36,37,60,61,84,85,108,109,132,133,156,157,180)
+);
+             </pre>
+        </div>
+      </div>
+      
+            <!-- IMAGE LEFT -->
+
+      <hr class="featurette-divider">
+      
+      <div class="row featurette">
+      	<div class="col-md-5">
+          	<pre class="prettyprint lang-php">
+for($p=0; $p<12; $p++)
+{
+   for($r=0; $r<17; $r++)
+   {
+      if($r==0)
+         $overallpicks[$p][$r] = 0;
+      else if ($r%2 == 0)
+      {
+         //normally, you would have to add 1 at the end
+         //but since we index at 0 we dont need to
+         $overallpicks[$p][$r] = ($r * 12) - ($p);
+      }
+      else
+      {
+         $overallpicks[$p][$r] = (($r - 1) * 12) + $p + 1;
+      }
+   }
+}
+             </pre>
+        </div>
+        <div class="col-md-7">
+          <h2 class="featurette-heading">Doing it better: <span class="text-muted">Writing a quicker algorithm.</span></h2>
+          <p class="lead">Of course, this is not an effecient way to do this.  There must be a faster way to find the results.
+          As a quick side note, however, you will notice that the first record in each array is 0.  That is because when you
+          query an array, it is indexed starting at 0.  That means that if I want the first item in an array I have to say
+          $array[0].  This is often fine since arrays can hold all sorts of data, but since I want to know what the pick is
+          in Round 1, it would be confusing to have that be 0.  So, I made the value for each one 0, that way the round number
+          will always match the position in the array.</p>
+          
+          <p class="lead">Now, let's make the code cleaner.  Here is a much more effecient way to create that array.  Again,
+          since we don't want to start at 0, we set the first item in each array to 0 on our first loop.
+          </p>
+
+        </div>
+      
+      </div>
+      
+            
+            <!-- IMAGE RIGHT -->
+      
+      <hr class="featurette-divider">
+      
+            <div class="row featurette">
+        <div class="col-md-7">
+          <h2 class="featurette-heading">Getting the data into a Database: <span class="text-muted">From text to SQL</span></h2>
+          <p class="lead">Now, we need to go through the array we created to write our queries.  That means we need to have
+          12 queries--one for each team in the draft.  The query will list out each player that they have selected.  This is
+          done in a for loop.  Since the index for our array starts at 0, $pick (our variable in the for loop) needs to start
+          at 0.  But I need to know each person's overall pick, so the $actual is $pick+1.  That means even though we are looking
+          at index 0, that would be the person with the first overall pick.</p>
+          
+          <p class="lead">We then keep appending to our query and execute it 12 times.  I also have the script write out the whole query.
+          This allows me to see check my work and also see if the script runs into any errors.
+          </p>
+
+        </div>
+        <div class="col-md-5">
+          	<pre class="prettyprint lang-php">
+for($pick = 0; $pick < 12; $pick++)
+{
+   $actual = $pick+1;
+
+   //beginning of our query
+   $insert_query = "INSERT INTO draft VALUES (".$actual;
+
+   echo "Results for pick $actual &lt;br /&gt;";
+   for($round = 1; $round < 16; $round++)
+   {
+      //echo $pickone[$round]."&lt;br /&gt;";
+      echo $array[$overallpicks[$pick][$round]]."&lt;br /&gt;";
+      
+      $insert_query .= ", '".mysqli_real_escape_string($link, $array[$overallpicks[$pick][$round]])."'";   
+   }
+
+   $insert_query .= ");";
+   echo $insert_query;
+   echo "&lt;br /&gt;";
+
+   mysqli_query($link,$insert_query)
+      or die(mysqli_error());
+}
+             </pre>
+        </div>
+      </div>
+      
+                  <!-- IMAGE LEFT -->
+
+      <hr class="featurette-divider">
+      
+      <div class="row featurette">
+      	<div class="col-md-5">
+			<img src="images/database.png" width="100%" class="codeImage" />
+        </div>
+        <div class="col-md-7">
+          <h2 class="featurette-heading">Our Data: <span class="text-muted">How does it look?</span></h2>
+          <p class="lead">On my test server, I have an installation of PHPMyAdmin.  This allows me to
+          look at the draft database table and make sure the data is coming in correctly.  Now, we have
+          the draft data in a meaningful format.  We can sort by overall pick and query to see the
+          most common selections among drafters.</p>
+
+        </div>
+      
+      </div>
+
+      <!-- /END THE FEATURETTES -->
+
+
+      <!-- FOOTER -->
+      <footer>
+        <p class="pull-right"><a href="#">Back to top</a></p>
+        <p>&copy; 2014 Company, Inc. &middot; <a href="#">Privacy</a> &middot; <a href="#">Terms</a></p>
+      </footer>
+
+    </div><!-- /.container -->
+
+
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/docs.min.js"></script>
+    <script src="js/prettify.js"></script>
+    <script src="../assets/js/scrolly-master/jquery.scrolly.js"></script>
+  </body>
+</html>
+
+
+
+
