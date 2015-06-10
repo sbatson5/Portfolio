@@ -1,0 +1,428 @@
+
+    <!-- Carousel
+    ================================================== -->
+    <div id="header-section" class="introHeader" >
+    	<div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="intro-message">
+                        <h1>Financial Calculators</h1>
+                        <h3>Object Oriented JavaScript</h3>
+                        <hr class="intro-divider">
+                    </div>
+                </div>
+            </div>
+         </div>
+    </div> 
+
+    <div class="container marketing">
+
+      <!-- START THE FEATURETTES -->
+
+      <div class="row featurette">
+        <div class="col-md-12">
+          <h2 class="featurette-heading">The goal: <span class="text-muted">Create branded, functional, financial calculators.</span></h2>
+          <p class="lead">Normally, within our app, we work in Ember which gives us a steady framework.  However, when we were approaching calculators 
+          we wanted to write them in standard JavaScript, so they could be used else where.  The goal was to write something idiomatic and semantically sound
+          that wasn't dependent on our framework.  Below are a couple examples of the classes I created to calculate home morgage.</p>
+          	<pre class="prettyprint">
+  //Our user data class
+  var UserData = (function(){
+    var constructor = function(){
+      this.defaults = {
+        interest : 4,
+        annualIncome : 60000,
+        monthlyPayment : 1500,
+        downPayment : 10000,
+        propertyTaxes : 1.2,
+        homeInsurance : 800,
+        hoaFees : 0,
+        monthlyDebt : 0,
+        loanTerm : 360
+      };
+      this.data = _.clone(this.defaults);
+    };
+    //set data
+    constructor.prototype = {
+      set: function(key, value) {
+        this.data[key] = this.isNumeric(value) ? value : this.defaults[key];
+      },
+      get: function(key) {
+        return this.data[key];
+      },
+      //is this a number?
+      isNumeric: function(n) {
+        return !isNaN(parseFloat(n)) && isFinite(n);
+      },
+      //functions for returning derived values
+      getPrincipalInterest: function(){
+        var intRate = this.get("interest") / 100 / 12;
+        var terms = this.get("loanTerm");
+        var payment = this.getLoanAmount() * intRate / (1 - Math.pow(1+intRate, -1 * terms));
+        return Math.round(payment);
+      },
+      getAnnualPropertyTax: function() {
+        return this.get("propertyTaxes") / 100 * this.getHouseCost();
+      },
+      getMonthlyPropertyTax: function() {
+        return this.getAnnualPropertyTax() / 12;
+      },
+      //the percentage in which the user is in dept compared to their income
+      getDebtRatio: function() {
+        var ratio = (this.getTotalPayment() + parseFloat(this.get("monthlyDebt"))) / (this.get("annualIncome")/12);
+        return Math.round(ratio * 100);
+      },
+      //The amount of the loan (not the amount of the house)
+      getLoanAmount: function(){
+        //our calculation: L = ((monthlyPayment - Insurance - (propTax * (L - 10000) - (PMI * (L - 10000))) * ((1 + intRate)^360 - 1)) / (intRate(1 + intRate)^360)
+        var payment = this.get("monthlyPayment");
+        var insurance = this.getHomeInsuranceMonthly();
+        var propTax = this.get("propertyTaxes") / 100 / 12;
+        var fees = this.get("hoaFees");
+        var downPayment = this.get("downPayment");
+        
+        var monthInt = this.get("interest") / 100 / 12;
+        var incPower = Math.pow((1 + monthInt), this.get("loanTerm"));
+        var factoredIntPower = (incPower - 1) / (monthInt * incPower);
+        var incDistribute = 1 + (factoredIntPower * propTax);
+        var distributePositive = (factoredIntPower * (payment - insurance - fees)) - ((propTax * factoredIntPower) * downPayment);
+
+        var loanTotal = distributePositive / incDistribute;
+
+        //We apply a PMI if we are putting less than 20% down
+        var PMIFactor = this.getPMIFactor(downPayment, loanTotal);
+
+        var PMINum = (factoredIntPower * (payment - insurance - fees)) - ((propTax + PMIFactor) * factoredIntPower * downPayment);
+        var PMIDenom = 1 + (factoredIntPower * (propTax + PMIFactor));
+        
+        return PMINum / PMIDenom;
+      },
+      //the full cost of the house which is the loan amount plus any down payments
+      getHouseCost: function(){
+        return Math.round(parseFloat(this.get("downPayment")) + this.getLoanAmount());
+      },
+      getHomeInsuranceMonthly: function(){
+        return this.get("homeInsurance")/12;
+      },
+		//... Skipping a few functions for brevity's sake
+      //Since we get most affordable, we need to give the total payment 
+      //as it varies from the amount they want to pay
+      getTotalPayment: function(){
+        var initialPayments = this.getPMI() + toFloat(this.get("hoaFees")) + this.getMonthlyPropertyTax();
+        var homePayments = this.getPrincipalInterest() + this.getHomeInsuranceMonthly();
+        return initialPayments + homePayments;
+      },
+      //we want to return an array of data, which we will use to populate our chart
+      getLineChartData: function(){
+        var lineChartData = [];
+        var houseCost = this.getLoanAmount();
+        for(var i = 1; i <= this.get("loanTerm"); i++) {
+          var interestAmount = houseCost * ((this.get("interest") / 100) / 12);
+          var principalAmount = this.getPrincipalInterest() - interestAmount;
+          houseCost -= principalAmount;
+          //only record data every year (not every month)
+          if(i % 12 == 0) {
+            //we only want labels for the first year and every 5th year
+            var yearLabel = ((i + 12) % 60 === 0 || i === 0) ? "Year " : "";
+
+            lineChartData.push({
+              interest : interestAmount,
+              principalAmount : principalAmount, 
+              year : yearLabel + (i / 12)
+            });
+          }
+        } //end for
+        return lineChartData;
+      },
+      //PMI is applied if less than 20% of the house cost is put down
+      getPMI: function(){
+        var PMIFactor = this.getPMIFactor(this.get("downPayment"), this.getLoanAmount());
+        return Math.round(PMIFactor * this.getLoanAmount());
+      },
+    }
+    return constructor;
+  })();
+             </pre>
+        </div>
+      </div>
+
+      <hr class="featurette-divider">
+      
+      <div class="row featurette">
+        <div class="col-md-12">
+          <h2 class="featurette-heading">Calculator Class: <span class="text-muted">Creating our charts</span></h2>
+          <p class="lead">Next, I used Charts.js to create a pie chart and some line charts showing payments over time.  Due to constant updates, I needed to handle 
+          regular changes.</p>
+		 <pre class="prettyprint">
+var MortgageCalc = (function() {
+    var constructor = function(pieChart, lineChart, principalIntChart, userData) {
+      this.pieChart = pieChart;
+      this.lineChart = lineChart;
+      this.userData = userData;
+      this.previousTerms = 360;
+      this.principalIntChart = principalIntChart;
+      this.lineChartCounter = true;
+    };
+
+    constructor.prototype = {
+      generatePieChart: function(data, options){
+        this.pieChart = new Chart(this.pieChart).Pie(data, options);
+      },
+      generateLineChart: function(data, options){
+        this.lineChart = new Chart(this.lineChart).Line(data, options);
+      },
+      generatePrincipalInterestChart: function(data, options){
+        this.principalIntChart = new Chart(this.principalIntChart).Line(data, options);
+      },
+      updateUserData: function(userData){
+        this.userData = userData;
+      },
+      setPreviousTerms: function(term){
+        //we need to store the previous loan term in order to update our line chart appropriately
+        this.previousTerms = term;
+      },
+      definePieChart: function(){
+        var options = {
+          tooltipTemplate: function(object) {
+            return moneyFormat(object.value);
+          },
+          //how much of the chart you want hidden in the middle
+          percentageInnerCutout: 65
+        };
+        var data = [];
+        this.generatePieChart(data, options);
+      },
+      defineAmortizationLineChart: function(){
+        var options = {
+            multiTooltipTemplate: function(object) {
+              //since we don't have the word Year on every datapoint in our chart, we must append it for the tooltip
+              object.label = (object.label.indexOf("Year") === 0) ? object.label : "Year " + object.label;
+              //We record LTV in our chart which is a percentage
+              //since this function is called once per dataset (i.e. twice), we need to tell it whether to record as $ or %
+              var toolTip = (this.lineChartCounter === false) ? "Loan: " + moneyFormat(object.value) : "LTV " + object.value + "%";
+              //this boolean is what tells us whether it is the loan value or LTV
+              this.lineChartCounter = !this.lineChartCounter;
+              return toolTip;
+            },
+            scaleLabel: function(object) {
+              return moneyFormat(object.value);
+            },
+            animationSteps: 1
+        };
+        var data = {
+          labels:[],
+          datasets: []
+        }
+
+        this.generateLineChart(data, options);
+
+        var self = this;
+        //for each item in our Line Chart Data, update our line chart object
+        _.each(this.userData.getAmortization(), function(row){
+          self.lineChart.addData([row.loanAmount, row.LTV], row.year);
+        });
+      },
+      defineLineChart: function(){
+        var options = {
+            multiTooltipTemplate: function(object) {
+              //since we don't have the word Year on every datapoint in our chart, we must append it for the tooltip
+              object.label = (object.label.indexOf("Year") === 0) ? object.label : "Year " + object.label;
+              return moneyFormat(object.value);
+            },
+            scaleLabel: function(object) {
+              return moneyFormat(object.value);
+            }
+        };
+        var data = {
+          labels:[],
+          datasets: []
+        }
+        
+        this.generatePrincipalInterestChart(data, options);
+
+        var self = this;
+        //for each item in our Line Chart Data, update our line chart object
+        _.each(this.userData.getLineChartData(), function(row){
+          self.principalIntChart.addData([row.interest, row.principalAmount], row.year);
+        });
+      },
+      updatePrincIntChart: function(){
+        var self = this;
+        //remove the data from the previous query
+        for(var i = 0; i < (this.previousTerms/12);i++){
+           self.principalIntChart.removeData();
+        }
+        _.each(this.userData.getLineChartData(), function(row){
+          self.principalIntChart.addData([row.interest, row.principalAmount], row.year);
+        });
+      },
+      updateLineChart: function(){
+        var self = this;
+        //remove the data from the previous query
+        for(var i = 0; i < (this.previousTerms / 12); i++){
+          self.lineChart.removeData();
+        }
+
+        _.each(this.userData.getAmortization(), function(row){
+          self.lineChart.addData([row.loanAmount, row.LTV], row.year);
+        });
+      },
+      updatePieChart: function(){
+        //if we have no pieChart, we need to define one
+        if(typeof this.pieChart.segments === 'undefined'){
+          this.definePieChart();
+        } else {
+          this.pieChart.segments[0].value = Math.round(this.userData.getPrincipalInterest());
+          this.pieChart.segments[1].value = Math.round(this.userData.get("hoaFees"));
+          this.pieChart.segments[2].value = Math.round(this.userData.getHomeInsuranceMonthly());
+          this.pieChart.segments[3].value = Math.round(this.userData.getMonthlyPropertyTax());
+          this.pieChart.segments[4].value = Math.round(this.userData.getPMI());
+          this.pieChart.update();
+        }
+      }
+    }
+    return constructor;
+  })();
+             </pre>
+        </div>
+      </div>
+
+      <hr class="featurette-divider">
+      
+            <div class="row featurette">
+        <div class="col-md-12">
+          <h2 class="featurette-heading">Form validation: <span class="text-muted">Updating our data and validating fields</span></h2>
+          <p class="lead">We needed to ensure that the data coming in was clean.  I used regular expressions to remove special characters but wanted 
+          to ensure that the user could enter things like % signs if they wanted to.  Here a few examples of the functions used to update our userData object
+          and validate our form.</p>
+          	<pre class="prettyprint">
+  //Format floating point number as USD, with a floor of 0
+  function moneyFormat(s) {
+    s = String(Math.round(s));
+    //reset to 0 if the number is negative
+    if(s.indexOf("-") === 0) {
+      s = "$0";
+    } else {
+      for (var i = s.length - 3; i > 0; i -= 3) {
+        s = s.slice(0, i) + ',' + s.slice(i);
+      }
+      s = "$" + s;
+    }
+    return s;
+  }
+
+  //append a % sign
+  function appendPercent(elm) {
+    $(elm).val($(elm).val() + "%");
+  }
+
+  //remove the % sign if one exists
+  function removePercentSign(elm) {
+    if(/%$/.test($(elm.currentTarget).val())) {
+      $(elm.currentTarget).val($(elm.currentTarget).val().slice(0, -1));
+    }
+  }
+
+  function setFieldUserData(userData, field) {
+    var fieldData = field.val();
+
+    userData.set(field.attr('name'), toFloat(fieldData));
+  }
+
+  function toFloat(item) {
+    //we divide by 1 to ensure that it is a number
+    //otherwise, it returns NaN
+    return item/1;
+  }
+
+  //method for highlighting the chart
+  function highlightPieChart(mc, index) {
+    var activeSegment = mc.pieChart.segments[index];
+    activeSegment.save();
+    activeSegment.fillColor = activeSegment.highlightColor;
+    // We need to force redrawing for it to highlight the same segment
+    // if you mouseover it again without mousing over a different one.
+    mc.pieChart.showTooltip([activeSegment], true);
+    activeSegment.restore();
+  }
+    //when we mouse over a part of the legend, highlight that part of the chart
+  $(".legendHover").mouseover(function(){
+    var segmentMap = {
+      piLegend : 0,
+      hoaLegend : 1,
+      insuranceLegend : 2,
+      taxLegend : 3,
+      pmiLegend : 4
+    };
+    highlightPieChart(mc, segmentMap[this.id]);
+  }).mouseout(function(){
+    //when we mouseout, redraw--otherwise the tooltip never disappears
+    mc.pieChart.draw();
+  });
+$(":input").blur(function(element){
+
+    var field = $(this);
+    var value = field.val();
+
+    //remove any blank spaces or special characters
+    var newValue = value.replace(/[^\w\s]/gi,"");
+    $('#percentAlert').addClass('hidden');
+
+    //round numbers down for non-percent fields
+    if(!field.hasClass('percent')) {
+      newValue = Math.round(newValue);
+    } else if ($(this).val() > 30) {
+      newValue = 30;
+      $('#percentAlert').removeClass('hidden');
+    }
+
+    field.val(newValue);
+    value = field.val();
+
+    if (isNaN(value) || value === '') {
+      resetField(userData, $(this));
+      $('#alertText').removeClass('hidden');
+    } else {
+      $('#alertText').addClass('hidden');
+      setFieldUserData(userData, $(this));
+    }
+
+    mc.updateUserData(userData);
+
+    fillForm(userData, mc);
+    mc.updateLineChart();
+    mc.updatePrincIntChart();
+
+    mc.setPreviousTerms(userData.get("loanTerm"));
+
+    //if the element is a %, append the % sign
+    if($(this).hasClass('percent')) {
+      appendPercent($(this));
+    }
+  });
+       </pre>
+        </div>
+      </div>
+      
+
+      <hr class="featurette-divider">
+      
+      <div class="row featurette">
+        <div class="col-md-12">
+          <h2 class="featurette-heading">Final result: <span class="text-muted">Testing and implementation</span></h2>
+          <p class="lead">We have a strict code review process.  Every Pull Request I had would be peer reviewed then pushed to our test server.  Once 
+          there, our QA team would go through all edge cases and give me corrections in Jira.  This would get added to my personal backlog, where I would reproduce
+          the errors and correct them.  This made me very confident in my product and very excited to see it on our production site.  Obviously, a lot more goes into this than
+          just the code listed above.  I used require.js to load in lodash, jquery and charts.js.  I added the routes for all calculators to the app in Ember and used CSS pre-processors
+          to style it and ensure it was consistent with the rest of the site. </p>
+        </div>
+      </div>
+
+      <hr class="featurette-divider">
+
+      <!-- /END THE FEATURETTES -->
+    </div><!-- /.container -->
+
+
+
+

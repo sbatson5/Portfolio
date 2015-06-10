@@ -1,6 +1,4 @@
-﻿
-
-var app = angular.module('projectsApp', ['ngRoute']);
+﻿var app = angular.module('projectsApp', ['ngRoute']);
 
 app.config(['$routeProvider',
   function($routeProvider) {
@@ -91,7 +89,10 @@ app.controller('CodePageController', function ($scope, $routeParams, projectsSer
 			url: 'code/angular.html' //7
 		},
 		{
-			url: 'code/angular.html' //7
+			url: 'code/angular.html' //8
+		},
+		{
+			url: 'code/calc.html' //8
 		}]
 		
 		//our JSON list of projects will give us the int we need in order to load the right page
@@ -153,12 +154,23 @@ app.service('projectsService', function () {
         {
             id: "Hall", 
 			Title: 'Hall of Heroes - Video game tracker', 
-			link: 'http://scottbatson.com/hallofheroes/', 
+			//link: 'http://scottbatson.com/hallofheroes/', 
+			link: 'https://github.com/sbatson5/HallOfHeroesDB',
 			description: 'My friends and I are avid gamers and spend a lot of our time discussing games, news in the industry and more. One thing we have done since 2006 is track which games we have beat in a forum thread called "Hall of Heroes." We wanted to add a little more ceremony to it and that is when this site was born. I use the GiantBomb API to search for games and my own user database to track the games people have beat. I have the site using both XML and JSON to pull results, PHP to store information in a MySQL database, AJAX to load content, jQuery to dynamically change the pages and lots of CSS3 tricks to make presentable.', 
 			skills: 'JSON, PHP, PDO, MySQL, Facebook API, AJAX, jQuery',
 			image: 'hallofheroes.png',
 			image2: 'hallofheroes.png',
 			exampleInt: 5
+        },
+		{
+            id: "Object Oriented Javascript", 
+			Title: 'Financial Calculators', 
+			link: 'https://societyofgrownups.com/calculators/mortgage',
+			description: 'I worked on a series of financial calculators that would help users estimate how much home they could afford, how to best pay off debts, how their investments grow over time and more.  I created classes for my forms, charts and more.  I focused on idiomatic JavaScript with functional declarations.  These went through a strict QA process as we worked in Kanban within Jira to consolidate our work with strict peer reviews our on Pull Requests.', 
+			skills: 'JSON, JavaScript, Ember, Object-Oriented Design, Object ProtoTypes, Lodash, Chart.js',
+			image: 'calc.png',
+			image2: 'calc.png',
+			exampleInt: 9
         },
 		{
             id: "ScrapStreet", 
@@ -173,7 +185,8 @@ app.service('projectsService', function () {
 		{
             id: "FantasyFootball", 
 			Title: 'Fantasy Mock Drafts - Analysis on football', 
-			link: 'http://scottbatson.com/Draft/chart.php?round=1&pick=1', 
+			//link: 'http://scottbatson.com/Draft/chart.php?round=1&pick=1', 
+			link: 'https://github.com/sbatson5/FantasyDrafter',
 			description: 'As someone who loves Fantasy Football, I created a web app that would pull my mock draft results and allow me to report on them to better predict my potential team and the draft patterns of my league.', 
 			skills: 'PHP, MySQL, Regex, Algorithm',
 			image: 'assets/img/chart.png',
@@ -193,8 +206,9 @@ app.service('projectsService', function () {
 		{
             id: "SurveyPHP", 
 			Title: 'Survey Response Management - Client project for survey data', 
-			link: 'http://scottbatson.com/snapphp2/snapphp2/login.php', 
-			description: 'Working for a research software company, we had many solutions. One of our older solutions was HTML surveys. These were great because people could post them on their own server but it relied on a script on our server to email the data back to them. For one client, this wasn\'t a possiblity but they didn\'t want to go with our cloud-based solution as they liked the HTML Surveys. I created a full site with PHP, MySQL, HTML5, CSS3 and jQuery to host their survey data. This site gave them an admin user which could create other users, manage the number of responses and report on their users. I wrote this site completely by myself from the server-side code to the front-end. \n\n  You can log in with Username: root and Password: root.', 
+			//link: 'http://scottbatson.com/snapphp2/snapphp2/login.php', 
+			link: 'https://github.com/sbatson5/SnapPHP',
+			description: 'Working for a research software company, we had many solutions. One of our older solutions was HTML surveys. These were great because people could post them on their own server but it relied on a script on our server to email the data back to them. For one client, this wasn\'t a possiblity but they didn\'t want to go with our cloud-based solution as they liked the HTML Surveys. I created a full site with PHP, MySQL, HTML5, CSS3 and jQuery to host their survey data. This site gave them an admin user which could create other users, manage the number of responses and report on their users. I wrote this site completely by myself from the server-side code to the front-end.', 
 			skills: 'CSS3, HTML5, MySQL, PHP, JavaScript, jQuery',
 			image: 'assets/img/SnapPHP.png',
 			image2: 'assets/img/SnapPHP.png',
