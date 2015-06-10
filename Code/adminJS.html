@@ -1,23 +1,21 @@
 
-    <!-- Carousel
-    ================================================== -->
-    <div id="header-section" class="introHeader" >
-    	<div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="intro-message">
-                        <h1>Admin Page</h1>
-                        <h3>Pop-up forms with JavaScript</h3>
-                        <hr class="intro-divider">
-                    </div>
+<!-- Carousel
+================================================== -->
+<div id="header-section" class="introHeader" >
+	<div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="intro-message">
+                    <h1>Admin Page</h1>
+                    <h3>Pop-up forms with JavaScript</h3>
+                    <hr class="intro-divider">
                 </div>
             </div>
-         </div>
-       
-    </div> 
+        </div>
+     </div>
+  </div> 
 
-
-    <div class="container marketing">
+  <div class="container marketing">
 
       <!-- START THE FEATURETTES -->
       
@@ -51,27 +49,27 @@
         &lt;/form&gt;
     &lt;/div&gt;
 &lt;/div&gt;
-            </pre>
-        </div>
-      </div>
+      </pre>
+    </div>
+  </div>
       
       <!-- ----------- IMAGE LEFT ----------------- -->
 
-      <hr class="featurette-divider">
+  <hr class="featurette-divider">
       
-      <div class="row featurette">
-        <div class="col-md-12">
-          <h2 class="featurette-heading">Styling the form: <span class="text-muted">using CSS to style our form</span></h2>
-          <p class="lead">Next, we need to style our form.  We want it to pop up when the user clicks "Add User" and we want it centered on the screen.  
-          We want to keep the form nice and simple and to have it float over the rest of the page.  We also need to position the x-button in the upper right 
-          corner, where a user would normally expect a button to be to close a window.</p>
-          <p class="lead">Since we want the page to scale, we use percents for the width--30% of the page is fitting for a pop-up.  We set the margin to 
-          auto so that it will be centered and add a slight border to give it a little more depth.  The border-radius gives it nice, rounded edges and the 
-          box-shadow adds a lot of depth.  Since there are other instances of forms (such as the login page), we write our own class of ".pop-up" so that 
-          we can position it where we want.  The absolute positioning keeps in place  Since the width of the form will be 30%, we only have 70% more of the 
-          page to play with. Therefore, we can move it 35% from the left (half of 70) to get it mostly centered.</p>
-          <p class="lead">We finally position our x-button similarly.  We can use percentages here, since it is relative to the div it is placed in.  A top 
-          position of negative 5% allows it to be slightly outside of the form.</p>
+  <div class="row featurette">
+    <div class="col-md-12">
+      <h2 class="featurette-heading">Styling the form: <span class="text-muted">using CSS to style our form</span></h2>
+      <p class="lead">Next, we need to style our form.  We want it to pop up when the user clicks "Add User" and we want it centered on the screen.  
+      We want to keep the form nice and simple and to have it float over the rest of the page.  We also need to position the x-button in the upper right 
+      corner, where a user would normally expect a button to be to close a window.</p>
+      <p class="lead">Since we want the page to scale, we use percents for the width--30% of the page is fitting for a pop-up.  We set the margin to 
+      auto so that it will be centered and add a slight border to give it a little more depth.  The border-radius gives it nice, rounded edges and the 
+      box-shadow adds a lot of depth.  Since there are other instances of forms (such as the login page), we write our own class of ".pop-up" so that 
+      we can position it where we want.  The absolute positioning keeps in place  Since the width of the form will be 30%, we only have 70% more of the 
+      page to play with. Therefore, we can move it 35% from the left (half of 70) to get it mostly centered.</p>
+      <p class="lead">We finally position our x-button similarly.  We can use percentages here, since it is relative to the div it is placed in.  A top 
+      position of negative 5% allows it to be slightly outside of the form.</p>
 			<pre class="prettyprint lang-css">
 #form {
 	width: 30%;
@@ -92,23 +90,23 @@
 	left: 97%;
 	top: -5%;
 }
-            </pre>
-        </div>
-      </div>
+        </pre>
+    </div>
+  </div>
       
             <!-- IMAGE RIGHT -->
 
-      <hr class="featurette-divider">
+  <hr class="featurette-divider">
 
-      <div class="row featurette">
-        <div class="col-md-12">
-          <h2 class="featurette-heading">Hiding the form: <span class="text-muted">Using jQuery to dynamically show the form</span></h2>
-          <p class="lead">Now that we have the form looking the way we want, we have to make it appear dynamically.  It should only appear when 
-          the user clicks the "Add User" link.  To do this, we first hide the 'popUp' form with the jQuery hide function.  Then, when the user clicks 
-          the addUser link, we will fade in our popUp but we also want it to be the main focus.  To do that, we will fade out the section behind it.  We 
-          do this by decreasing the opacity of our wrapper div.</p>
-          <p class="lead">This takes care of the form appearing but we still need to be able to hide it if the user wants to cancel.  To do that, we add a 
-          similar function to the x-button.  When it is clicked, it hides our popUp and switches the opacity of our wrapper back to 1.</p>
+  <div class="row featurette">
+    <div class="col-md-12">
+      <h2 class="featurette-heading">Hiding the form: <span class="text-muted">Using jQuery to dynamically show the form</span></h2>
+      <p class="lead">Now that we have the form looking the way we want, we have to make it appear dynamically.  It should only appear when 
+      the user clicks the "Add User" link.  To do this, we first hide the 'popUp' form with the jQuery hide function.  Then, when the user clicks 
+      the addUser link, we will fade in our popUp but we also want it to be the main focus.  To do that, we will fade out the section behind it.  We 
+      do this by decreasing the opacity of our wrapper div.</p>
+      <p class="lead">This takes care of the form appearing but we still need to be able to hide it if the user wants to cancel.  To do that, we add a 
+      similar function to the x-button.  When it is clicked, it hides our popUp and switches the opacity of our wrapper back to 1.</p>
 			<pre class="prettyprint lang-js">
 $('.popUp').hide();
 
@@ -121,22 +119,22 @@ $('.xbut').click(function(){
     $('#form').hide();
     $('#wrapper').animate({opacity:1},200);
 });
-            </pre>
-        </div>
-      </div>
+      </pre>
+    </div>
+  </div>
       
       
             
       <!-- ----------- IMAGE LEFT ----------------- -->
 
-      <hr class="featurette-divider">
-      
-      <div class="row featurette">
-        <div class="col-md-12">
-          <h2 class="featurette-heading">Checking the passwords: <span class="text-muted">Using javascript to authenticate</span></h2>
-          <p class="lead">The last thing we need to do on this form is make sure that the two passwords match. jQuery makes this simple for us.
-          We check the values of each password field and if the values match, we can submit the form.  Otherwise, alert the user that the passwords don't 
-          match and reset their values.  This check is only performed once the user tries to submit the form.</p>
+  <hr class="featurette-divider">
+  
+  <div class="row featurette">
+    <div class="col-md-12">
+      <h2 class="featurette-heading">Checking the passwords: <span class="text-muted">Using javascript to authenticate</span></h2>
+      <p class="lead">The last thing we need to do on this form is make sure that the two passwords match. jQuery makes this simple for us.
+      We check the values of each password field and if the values match, we can submit the form.  Otherwise, alert the user that the passwords don't 
+      match and reset their values.  This check is only performed once the user tries to submit the form.</p>
 			<pre class="prettyprint lang-js">
 //Make sure that the passwords entered match
 $('.addUserSubmit').click(function(){
@@ -152,9 +150,9 @@ $('.addUserSubmit').click(function(){
     }
 
 });
-            </pre>
-        </div>
-      </div>
+        </pre>
+    </div>
+  </div>
       
   <hr class="featurette-divider">
 
@@ -166,8 +164,8 @@ $('.addUserSubmit').click(function(){
       test the real site, you can visit it <a href="http://scottbatson.com/snapphp2/snapphp2/login.php">here</a> and log in with the username 'root' and the 
       password 'root.'</p>
     </div>
-   </div>
-  </div><!-- /.container -->
+  </div>
+</div><!-- /.container -->
 
 
     

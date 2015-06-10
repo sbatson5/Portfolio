@@ -21,24 +21,21 @@ app.config(['$routeProvider',
   }]);
 
 
-
 //This controller retrieves data from the customersService and associates it with the $scope
 //The $scope is ultimately bound to the customers view
 app.controller('ProjectsController', function ($scope, $routeParams, projectsService) {
     init();
 
     function init() {
-		//if there are paramaters (id) call getSpecific
-		var hasParams = Boolean(Object.keys($routeParams).length);
-		if(hasParams)
-		{
-			$scope.projects = projectsService.getSpecific($routeParams.id);
-		}
-		//otherwise, pull them all
-		else
-		{
-        	$scope.projects = projectsService.getProjects();
-		}
+  		//if there are paramaters (id) call getSpecific
+  		var hasParams = Boolean(Object.keys($routeParams).length);
+  		if(hasParams) {
+  			$scope.projects = projectsService.getSpecific($routeParams.id);
+  		}
+  		//otherwise, pull them all
+  		else {
+          	$scope.projects = projectsService.getProjects();
+  		}
     }
 });
 
@@ -92,7 +89,7 @@ app.controller('CodePageController', function ($scope, $routeParams, projectsSer
 			url: 'code/angular.html' //8
 		},
 		{
-			url: 'code/calc.html' //8
+			url: 'code/calc.html' //9
 		}]
 		
 		//our JSON list of projects will give us the int we need in order to load the right page
@@ -101,28 +98,24 @@ app.controller('CodePageController', function ($scope, $routeParams, projectsSer
 });
 
 
-
-
-
-
-
 //This handles retrieving data and is used by controllers
 app.service('projectsService', function () {
-    this.getProjects = function () {
-        return projects;
-    };
+  this.getProjects = function () {
+      return projects;
+  };
 	
 	this.getSpecific = function (id) {
 		for(i=0;i<projects.length;i++)
 		{
-			if(projects[i].id == id)
+			if(projects[i].id == id) {
 				return projects[i];
+      }
 		}
 	};
 
     var projects = [
 		{
-            id: "Portfolio", 
+      id: "Portfolio", 
 			Title: 'My Portfolio - built with AngularJS', 
 			link: 'http://www.scottbatson.com/', 
 			description: 'Thanks for taking a look at my Portfolio.  This site was created using AngularJS, however the projects here cover a much wider range of languages.  Click on the Title to go back to my homepage and feel free to click around my projects.  Each one will have a link showing the web app and a link with some examples of the code I used as well as a breakdown of my thought process.  Feel free to check out how I did this portfolio with a full breakdown of all my AngularJS code.', 
@@ -130,9 +123,9 @@ app.service('projectsService', function () {
 			image: 'AngularJS_Banner.jpg',
 			image2: 'AngularJS_Banner.jpg',
 			exampleInt: 8
-        },
+    },
 		{
-            id: "AboutMe", 
+      id: "AboutMe", 
 			Title: 'About Me', 
 			link: 'http://www.scottbatson.com/', 
 			description: 'Over the years, I have spent a lot of time taking classes and teaching myself new programming languages, techniques and software to better prepare myself for the professional world. I have a lot of real-world experience with languages ranging from SQL to C# to HTML5 and I spend a lot my freetime working on creative projects.  I am a really fast learner with a passion for technology and writing.  Feel free to look around my portfolio and let me know what you think.', 
@@ -140,9 +133,9 @@ app.service('projectsService', function () {
 			image: 'newScott.png',
 			image2: 'scott.png',
 			exampleInt: 7
-        },
-        {
-            id: "Snap", 
+    },
+    {
+      id: "Snap", 
 			Title: 'Snap Surveys - My work on client projects', 
 			link: 'http://www.snapsurveys.com/', 
 			description: 'Our website needed a huge overhaul after almost a decade of the same template. The largest issue we had was that it was not mobile friendly. Working with a team of developers and graphic designers, we implemented Twitter Bootstrap to update our site for modern business. This saw a huge increase in traffic and search engine results, bringing us back to the number 1 page on Google when searching for "Survey Software."\n\nMost of projects were for clients directly--building branded surveys as well as custom solutions for data collection.  One of my largest projects was creating a site for users to store and download data securely.', 
@@ -150,9 +143,9 @@ app.service('projectsService', function () {
 			image: 'snapsurveys.png',
 			image2: 'snapsurveys.png',
 			exampleInt: 3
-        },
-        {
-            id: "Hall", 
+    },
+    {
+      id: "Hall", 
 			Title: 'Hall of Heroes - Video game tracker', 
 			//link: 'http://scottbatson.com/hallofheroes/', 
 			link: 'https://github.com/sbatson5/HallOfHeroesDB',
@@ -161,7 +154,7 @@ app.service('projectsService', function () {
 			image: 'hallofheroes.png',
 			image2: 'hallofheroes.png',
 			exampleInt: 5
-        },
+    },
 		{
             id: "Object Oriented Javascript", 
 			Title: 'Financial Calculators', 
@@ -181,9 +174,9 @@ app.service('projectsService', function () {
 			image: 'scrapstreet.png',
 			image2: 'scrapstreet.png',
 			exampleInt: 6
-        },
+    },
 		{
-            id: "FantasyFootball", 
+      id: "FantasyFootball", 
 			Title: 'Fantasy Mock Drafts - Analysis on football', 
 			//link: 'http://scottbatson.com/Draft/chart.php?round=1&pick=1', 
 			link: 'https://github.com/sbatson5/FantasyDrafter',
@@ -192,9 +185,9 @@ app.service('projectsService', function () {
 			image: 'assets/img/chart.png',
 			image2: 'assets/img/chart.png',
 			exampleInt: 1
-        },
+    },
 		{
-            id: "Tile", 
+      id: "Tile", 
 			Title: 'Tile Game - A quick web game', 
 			link: 'http://scottbatson.com/tile.html', 
 			description: 'This started as an HTML mock up of the IIS8 splash image. Once I had it created, I wanted to use CCS3 animations to make the tiles move. I use jQuery to then hide images and keep track of the player\'s selections. To save some time, I also use Less (a CSS Pre-processor) to reduce the amount of code.', 
@@ -202,9 +195,9 @@ app.service('projectsService', function () {
 			image: 'assets/img/tile.png',
 			image2: 'assets/img/tile.png',
 			exampleInt: 2
-        },
+    },
 		{
-            id: "SurveyPHP", 
+      id: "SurveyPHP", 
 			Title: 'Survey Response Management - Client project for survey data', 
 			//link: 'http://scottbatson.com/snapphp2/snapphp2/login.php', 
 			link: 'https://github.com/sbatson5/SnapPHP',
@@ -213,9 +206,9 @@ app.service('projectsService', function () {
 			image: 'assets/img/SnapPHP.png',
 			image2: 'assets/img/SnapPHP.png',
 			exampleInt: 0
-        },
-			{
-            id: "Databases", 
+    },
+		{
+      id: "Databases", 
 			Title: 'Working with Databases - Client project in SQL', 
 			link: 'http://scottbatson.com/code/storedProc.html', 
 			description: 'A manufacturer had a pretty basic database that stored information on their customers, products, sales reps, offices and orders. This worked for some basic queries and reporting, however we needed to create a system that handled reorders when the quantity on hand ran too low and a way to print shipping labels. All of the code I ran was written directly in the console. No programs were used to write these queries for me.', 
@@ -223,9 +216,8 @@ app.service('projectsService', function () {
 			image: 'mysql.jpg',
 			image2: 'mysql.jpg',
 			exampleInt: 4
-        }
-    ];
-
+    }
+  ];
 });
 
 

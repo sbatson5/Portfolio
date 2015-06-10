@@ -1,11 +1,9 @@
 <DOCTYPE HTML>
 
 <?php
+  require ("db_connection.php");
 
-require ("db_connection.php");
-
-$user_pick = $_GET['pick'];
-
+  $user_pick = $_GET['pick'];
 ?>
 <head>
 
@@ -74,13 +72,8 @@ $user_pick = $_GET['pick'];
             </div>
           </div>
         </div>
-
       </div>
     </div> <!-- end of nav wrapper -->
-    
-    
-
-
 
     <div class="container marketing">
     
@@ -159,9 +152,6 @@ $user_pick = $_GET['pick'];
       </footer>
 
     </div><!-- /.container -->
-
-
-
 
     <!-- Bootstrap core JavaScript
     ================================================== -->

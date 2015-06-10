@@ -1,10 +1,10 @@
 
-	<main id="main" ng-controller="ProjectsController">
-    	<article ng-repeat="proj in projects" id="{{ proj.id }}" class="project-item">
-        	<img class="grid-image" src="{{ proj.image }}" />
-        	<header class="project-header">
-            	<h1 class="entry-title"> {{ proj.Title }} </h1>
-            </header>
-            <a href="#/info/{{ proj.id }}" class="entry-link"></a>
-        </article>
-    </main>
+<main id="main" ng-controller="ProjectsController">
+  	<article ng-repeat="proj in projects" id="{{ proj.id }}" class="project-item">
+      	<img class="grid-image" src="{{ proj.image }}" />
+      	<header class="project-header">
+          	<h1 class="entry-title"> {{ proj.Title }} </h1>
+          </header>
+          <a href="#/info/{{ proj.id }}" class="entry-link"></a>
+      </article>
+  </main>
